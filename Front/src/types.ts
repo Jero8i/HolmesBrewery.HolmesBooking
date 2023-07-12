@@ -55,6 +55,7 @@ export interface Service {
   isActive: boolean;
   maxPeople: number;
   schedule: Schedule;
+  description: string;
 }
 
 export interface Schedule {

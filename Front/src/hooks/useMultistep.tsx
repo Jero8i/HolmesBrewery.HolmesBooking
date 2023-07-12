@@ -26,6 +26,7 @@ export function useMultistep() {
       isActive: false,
       maxPeople: 0,
       schedule: {},
+      description: "",
     },
     time: new Date(),
     state: 0,
