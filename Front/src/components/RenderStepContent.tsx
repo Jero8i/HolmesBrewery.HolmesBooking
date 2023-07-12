@@ -5,7 +5,8 @@ import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
 import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
-import { Reservation, Service } from "../types";
+import { Customer, Reservation, Service } from "../types";
+import Step6 from "./steps/Step6";
 
 interface RenderStepContentProps {
   activeStep: number;
@@ -16,7 +17,12 @@ interface RenderStepContentProps {
   handleChangeStep2: (date: string) => void;
   handleChangeStep3: (service: Service) => void;
   handleChangeStep4: (scheduleTime: string) => void;
+  handleChangeStep5: (customer: Customer) => void;
   handleSubmit: () => void;
+
+  activeOption: number;
+  chooseOption: (n: number) => void;
+  goBack: () => void;
 }
 
 export const RenderStepContent: React.FC<RenderStepContentProps> = ({
@@ -28,7 +34,12 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep2,
   handleChangeStep3,
   handleChangeStep4,
+  handleChangeStep5,
   handleSubmit,
+
+  activeOption,
+  chooseOption,
+  goBack
 }) => {
   switch (activeStep) {
     case -1:
@@ -73,6 +84,19 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
     case 4:
       return (
         <Step5
+          customer={reservation.customer}
+          reservation={reservation}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          activeOption={activeOption}
+          chooseOption={chooseOption}
+          goBack={goBack}
+          onChange={handleChangeStep5}
+        />
+      );
+    case 5:
+      return (
+        <Step6
           reservation={reservation}
           onPrev={handlePrev}
           onSubmit={handleSubmit}

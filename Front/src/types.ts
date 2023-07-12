@@ -28,11 +28,12 @@ export enum State {
 }
 
 export interface Customer {
-  id: string | null;
+  id: string;
   name: string;
   lastname: string;
   email: string;
   phonenumber: string;
+  password: string;
   classification: number;
 }
 

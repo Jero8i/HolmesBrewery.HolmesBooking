@@ -1,57 +1,85 @@
-import React from 'react';
-import { Item, Reservation } from '../../types';
-import { Box, Button, Grid, Stack } from '@mui/material';
-import { createReservation } from '../../api';
+import React, { useState } from "react";
+import { Customer, Reservation } from "../../types";
+import { Grid, Button } from "@mui/material";
+import EmailLogin from "../userLogin/EmailLogin";
+import EmailRegister from "../userLogin/EmailRegister";
+import GoogleLogin from "../userLogin/GoogleLogin";
 
 interface Step5Props {
-    reservation: Reservation;
-    onPrev: () => void;
-    onSubmit: () => void;
-  }
+  customer: Customer;
+  reservation: Reservation;
+  onPrev: () => void;
+  onNext: () => void;
+  activeOption: number;
+  chooseOption: (n: number) => void;
+  goBack: () => void;
+  onChange: (customer: Customer) => void;
+}
 
-  const Step5: React.FC<Step5Props> = ({ reservation, onPrev, onSubmit }) => {
-    const handleSubmit = async () => {
-      try {
-        console.log(reservation);
-        console.log(JSON.stringify(reservation));
-        await createReservation(reservation);
-        onSubmit();
-      } catch (error) {
-        //error handling
-      }
-    };
-
-    return (
-      <Grid
-    container
-    justifyContent="center"
-    alignItems="center"
-    style={{ height: '10vh' }}
-    >
-      <Box sx={{ width: 300 }}>
-        <Stack spacing={{ xs: 1, sm: 1 }} direction="row" useFlexGap flexWrap="wrap">
-          <Item><h2>Resumen de reserva</h2></Item>
-          <Item><p>Cantidad de personas: {reservation.numberDiners}</p></Item>
-          <Item><p>Fecha: {reservation.time.toLocaleDateString()}</p></Item>
-          <Item><p>Horario: {reservation.time.toLocaleTimeString()}</p></Item>
-          <Item><p>Servicio: {reservation.service.name}</p></Item>
-          <Item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: '10vh' }}
-              spacing={2}
+const Step5: React.FC<Step5Props> = ({
+  customer,
+  reservation,
+  onPrev,
+  onNext,
+  activeOption,
+  chooseOption,
+  goBack,
+  onChange,
+}) => {
+  switch (activeOption) {
+    case 0:
+      return (
+        <div>
+          <Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => chooseOption(1)}
               >
-              <Grid item><Button variant="contained" color="primary" onClick={onPrev}>Anterior</Button></Grid>
-              <Grid item><Button variant="contained" color="primary" onClick={handleSubmit}>Enviar Reserva</Button></Grid>
+                Iniciar Sesion
+              </Button>
             </Grid>
-          </Item>
-          </Stack>
-      </Box>
-    </Grid>
-    );
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => chooseOption(2)}
+              >
+                Registrarse con Email
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => chooseOption(3)}
+              >
+                Continuar con Google
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={onPrev}>
+                Anterior
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={onNext}>
+                Siguiente
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
+      );
+    case 1:
+      return <EmailLogin goBack={goBack} onNext={onNext} reservation={reservation}/>;
+    case 2:
+      return <EmailRegister goBack={goBack} onNext={onNext} customer={customer} onChange={onChange}/>;
+    case 3:
+      return <GoogleLogin goBack={goBack} />;
+    default:
+      return null;
   }
-  
-  export default Step5;
+};
+
+export default Step5;

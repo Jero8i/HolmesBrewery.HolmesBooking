@@ -44,6 +44,9 @@ const StepperComponent = ({ activeStep }: { activeStep: number }) => {
                     <StepLabel icon={<WatchLaterIcon className="custom-icon"/>}>Horario</StepLabel>
                 </Step>
                 <Step>
+                    <StepLabel icon={<FactCheckRoundedIcon className="custom-icon"/>}>Login</StepLabel>
+                </Step>
+                <Step>
                     <StepLabel icon={<FactCheckRoundedIcon className="custom-icon"/>}>Resumen</StepLabel>
                 </Step>
             </Stepper>

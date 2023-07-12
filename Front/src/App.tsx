@@ -6,6 +6,7 @@ import { Box, Container, Grid } from '@mui/material';
 import StepperComponent from "./components/StepperComponent";
 import background from './images/background.jpg';
 import { useWindowRezise } from "./hooks/useWindowRezise";
+import { useLogin } from "./hooks/useLogin";
 
 function App() {
   const {
@@ -17,8 +18,16 @@ function App() {
     handleChangeStep2,
     handleChangeStep3,
     handleChangeStep4,
+    handleChangeStep5,
     handleSubmit,
   } = useMultistep();
+
+  const {
+    activeOption,
+    chooseOption,
+    goBack,
+  } = useLogin();
+
 
   const { isMobile } = useWindowRezise();
   
@@ -83,7 +92,11 @@ function App() {
               handleChangeStep2,
               handleChangeStep3,
               handleChangeStep4,
+              handleChangeStep5,
               handleSubmit,
+              activeOption,
+              chooseOption,
+              goBack,
             })}
           </Grid>
 

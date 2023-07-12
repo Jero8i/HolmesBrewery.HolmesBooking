@@ -1,4 +1,4 @@
-import { Reservation, Service } from "./types";
+import { Customer, Reservation, Service } from "./types";
 
 export async function fetchServices(date: string): Promise<Service[]> {
   try {
@@ -28,11 +28,58 @@ export async function createReservation(reservation: Reservation): Promise<void>
     });
 
     if (!response.ok) {
-      throw new Error('Error al crear la reserva');
+      throw new Error('Error al crear la reserva.');
     }
 
   } catch (error) {
     console.error('Error al crear la reserva:', error);
+    throw error;
+  }
+}
+
+export async function registerCustomer(customer: Customer): Promise<void> {
+  try {
+    const formData = new FormData();
+    formData.append("Customer.Id", customer.id); // Why does it work without Id? (In back "IsNewCustomer")
+    formData.append("Customer.Name", customer.name);
+    formData.append("Customer.LastName", customer.lastname);
+    formData.append("Customer.Email", customer.email);
+    formData.append("Customer.PhoneNumber", customer.phonenumber);
+    formData.append("Customer.Password", customer.password);
+    formData.append("Customer.Classification", customer.classification.toString());
+    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/save-customer', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al registrar al cliente.');
+    }
+  } catch (error) {
+    console.error('Error al registrar al cliente.', error);
+    throw error;
+  }
+}
+
+export async function customerLogin(email: string, password: string): Promise<Customer> {
+  try {
+    const formData = new FormData(); // Why it is different compared to previous?
+    formData.append("Username", email);
+    formData.append("Password", password);
+    formData.append("CalledFromAdmin", "false");
+    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/users/login', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error('Error al iniciar sesión.');
+    }
+    
+    return await response.json() as Customer;
+
+  } catch (error) {
+    console.error('Error al iniciar sesión.', error);
     throw error;
   }
 }
