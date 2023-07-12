@@ -48,6 +48,7 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
       return (
         <Step1
           numberDiners={reservation.numberDiners}
+          onPrev={handlePrev}
           onNext={handleNext}
           onChange={handleChangeStep1}
         />

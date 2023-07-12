@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './styles/themeProvider';
 
 ReactDOM.render(
-    <ThemeProvider theme={theme}>
-        <App />
-    </ThemeProvider>,
+    <React.StrictMode>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <App />
+        </ThemeProvider>
+    </React.StrictMode>,
     document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

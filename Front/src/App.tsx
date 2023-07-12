@@ -1,10 +1,11 @@
 import React from "react";
 import { useMultistep } from "./hooks/useMultistep";
 import { RenderStepContent } from "./components/RenderStepContent";
-import { Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 
 import StepperComponent from "./components/StepperComponent";
-import "./styles/App.css";
+import background from './images/background.jpg';
+import { useWindowRezise } from "./hooks/useWindowRezise";
 import { useLogin } from "./hooks/useLogin";
 
 function App() {
@@ -27,52 +28,82 @@ function App() {
     goBack,
   } = useLogin();
 
+
+  const { isMobile } = useWindowRezise();
+  
   return (
-    <div className="background">
-      <Grid
-        container
-        direction="column"
-        justifyContent={activeStep !== -1 ? 'flex-start' : 'center'}
-        alignItems="center"
+    <Container 
+      sx={{
+      height: '100vh', 
+      minWidth: '100vw',
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      }}
+    >
+      <Box
         sx={{
-          backgroundColor: 'rgba(254, 250, 224)',
+          backgroundColor: "rgba(255, 230, 167, 0.95)",
           borderRadius: '10px',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-          height: {
-            xs: '40%', sm: '55%', md: '60%', lg: '65%', 
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)',
+          height: 
+          isMobile ? '50%' :
+          {
+            xs: '45%', sm: '55%', md: '60%', lg: '65%', 
           },
-          width: {
-            xs: '80%', sm: '70%', md: '57%', lg: '50%', 
+          width: 
+          isMobile ? '95%' :
+          {
+            xs: '90%', sm: '80%', md: '65%', lg: '55%', 
           },
           position: 'relative',
+          display: "flex",
+          justifyContent:"center",
+          alignItems:"center"
         }}
       >
-  
-        <Grid item>
-          {activeStep !== -1 && <StepperComponent activeStep={activeStep} />}
-        </Grid>
-  
-        <Grid item>
-          {RenderStepContent({
-            activeStep,
-            reservation,
-            handleNext,
-            handlePrev,
-            handleChangeStep1,
-            handleChangeStep2,
-            handleChangeStep3,
-            handleChangeStep4,
-            handleChangeStep5,
-            handleSubmit,
+        
+        <Grid container
+          justifyContent="center"
+          alignItems="stretch"
+          width='100%'
+          height= '100%'
+        >
 
-            activeOption,
-            chooseOption,
-            goBack,
-          })}
+          {activeStep !== -1 && (
+            <Grid item
+              position= 'absolute'
+            >
+             <StepperComponent activeStep={activeStep} />
+            </Grid>
+          )}
+
+          <Grid item
+          >
+            {RenderStepContent({
+              activeStep,
+              reservation,
+              handleNext,
+              handlePrev,
+              handleChangeStep1,
+              handleChangeStep2,
+              handleChangeStep3,
+              handleChangeStep4,
+              handleChangeStep5,
+              handleSubmit,
+              activeOption,
+              chooseOption,
+              goBack,
+            })}
+          </Grid>
+
         </Grid>
-  
-      </Grid>
-    </div>
+
+      </Box>
+    </Container>
   );
   
 }

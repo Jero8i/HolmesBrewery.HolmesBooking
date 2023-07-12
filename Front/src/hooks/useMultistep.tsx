@@ -46,8 +46,8 @@ export function useMultistep() {
   };
 
   const handleChangeStep2 = (date: string) => {
-    const [year, month, day] = date.split('-');
-    const time = new Date(Number(year), Number(month) - 1, Number(day));
+    const [day, month, year] = date.split('/');
+    const time = new Date(Number(year)+2000, Number(month)-1, Number(day));
     setReservation({ ...reservation, time });
   };
 

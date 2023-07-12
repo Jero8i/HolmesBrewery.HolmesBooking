@@ -4,24 +4,19 @@
     margin-top: 5%;
 }
 
-.custom-stepper .css-14j26sj-MuiStepLabel-label {
-    color: var(--color-success); 
+.custom-stepper .MuiStepLabel-label {
+    color: var(--color-info); 
     font-weight: 500;
     font-family: 'Roboto Slab', serif;
 }
 
-.custom-stepper .css-14j26sj-MuiStepLabel-label.Mui-active {
+.custom-stepper .MuiStepLabel-label.Mui-active {
     color: var(--color-primary); 
     font-weight: bold;
-    font-size:medium;
+    font-size: medium;
 }
 
-.custom-stepper .css-14j26sj-MuiStepLabel-label.Mui-completed {
-    color: var(--color-success-light); 
-    font-weight: 500;
-}
-
-.custom-stepper .css-14j26sj-MuiStepLabel-label.Mui-completed {
+.custom-stepper .MuiStepLabel-label.Mui-completed {
     color: var(--color-success-light); 
     font-weight: 500;
 }

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 
 export function useWindowRezise() {
 
-    const [isMedium, setMedium] = useState<boolean>(false);
-    const [isMobile, setMobile] = useState<boolean>(false);
-
+    const [isMedium, setIsMedium] = useState<boolean>(false);
+    const [isSmall, setIsSmall] = useState<boolean>(false);
+    const [isMobile, setIsMobile] = useState<boolean>(false);
     useEffect(() => {
         const handleResize = () => {
-            setMedium(window.matchMedia('(max-width: 768px)').matches);
-            setMobile(window.matchMedia('(max-width: 414px)').matches);
+            setIsMedium(window.matchMedia('(max-width: 900px)').matches);
+            setIsSmall(window.matchMedia('(max-width: 600px)').matches);
+            setIsMobile(window.matchMedia('(max-width: 414px)').matches);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -17,5 +18,5 @@ export function useWindowRezise() {
         };
     }, []);
 
-    return {isMedium, isMobile};
+    return {isMedium, isSmall, isMobile};
 }

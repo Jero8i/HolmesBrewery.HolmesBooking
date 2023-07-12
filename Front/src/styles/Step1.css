@@ -5,7 +5,3 @@
     border-radius: 50%;
     color: var(--color-primary-light);
 }
-
-.MuiButtonBase-root.numberButton:hover{
-    background-color: var(--color-primary);
-}
