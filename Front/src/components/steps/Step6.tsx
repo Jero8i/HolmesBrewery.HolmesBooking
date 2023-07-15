@@ -10,6 +10,8 @@ interface Step6Props {
 }
 
 const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
+  console.log(reservation);
+
   const handleSubmit = async () => {
     try {
       await createReservation(reservation);

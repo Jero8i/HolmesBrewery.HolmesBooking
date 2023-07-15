@@ -50,7 +50,7 @@ const Step5: React.FC<Step5Props> = ({
               </Button>
             </Grid>
             <Grid item>
-              <Google customer={customer} onNext={onNext}/>
+              <Google customer={customer} onNext={onNext} onChange={onChange}/>
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" onClick={onPrev}>

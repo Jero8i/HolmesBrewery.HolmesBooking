@@ -8,9 +8,10 @@ import { googleLoginCustomer } from "../../api";
 interface GoogleProps {
   customer: Customer;
   onNext: () => void,
+  onChange: (customer: Customer) => void;
 }
 
-const Google: React.FC<GoogleProps> = ({customer, onNext}) => {
+const Google: React.FC<GoogleProps> = ({customer, onNext, onChange}) => {
   const clientID = "700718116668-2u91tg44c6eru6l81qov06odhfsv07ch.apps.googleusercontent.com";
 
   useEffect(() => {
@@ -25,7 +26,8 @@ const Google: React.FC<GoogleProps> = ({customer, onNext}) => {
 
   const handleLoginGoogle = async (customer: Customer) => {
     try {
-      await googleLoginCustomer(customer);
+      let reservationCustomer = await googleLoginCustomer(customer);
+      onChange(reservationCustomer);
       onNext();
     } catch (error) {
       //error handling
