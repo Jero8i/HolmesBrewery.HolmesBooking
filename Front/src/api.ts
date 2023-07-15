@@ -61,6 +61,31 @@ export async function registerCustomer(customer: Customer): Promise<void> {
   }
 }
 
+export async function googleLoginCustomer(customer: Customer): Promise<void> {
+  try {
+    const formData = new FormData();
+    //formData.append("Customer.Id", customer.id); // Why does it work without Id? (In back "IsNewCustomer")
+    formData.append("Customer.Name", customer.name);
+    formData.append("Customer.LastName", customer.lastname);
+    formData.append("Customer.Email", customer.email);
+    //formData.append("Customer.PhoneNumber", customer.phonenumber);
+    //formData.append("Customer.Password", customer.password);
+    formData.append("Customer.Classification", customer.classification.toString());
+    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/external-login', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al iniciar sesion con google.');
+    }
+    console.log("Todo joya :)");
+  } catch (error) {
+    console.error('Error al iniciar sesion con google.', error);
+    throw error;
+  } 
+}
+
 export async function customerLogin(email: string, password: string): Promise<Customer> {
   try {
     const formData = new FormData(); // Why it is different compared to previous?
