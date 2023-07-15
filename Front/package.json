@@ -10,6 +10,7 @@
     "@mui/material": "^5.13.6",
     "@mui/x-date-pickers": "^6.5.0",
     "@types/react": "^17.0.0",
+    "buffer": "^6.0.3",
     "dayjs": "^1.11.7",
     "dummy-component": "git+https://github.com/recraftrelic/dummy-react-npm-module.git",
     "gapi-script": "^1.2.0",
@@ -44,6 +45,6 @@
   "devDependencies": {
     "@types/mocha": "^10.0.1",
     "@types/react-dom": "^18.2.3",
-    "typescript": "^5.1.6"
+    "@types/react-html-parser": "^2.0.2"
   }
 }

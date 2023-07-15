@@ -24,7 +24,8 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await registerCustomer(customer);
+      const customerId = (await registerCustomer(customer)).id;
+      onChange({...customer, ["id"]: customerId});
       onNext();
     } catch (error) {
       //error handling

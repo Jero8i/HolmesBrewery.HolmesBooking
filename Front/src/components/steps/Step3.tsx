@@ -1,7 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
-import { Item, Reservation, Service } from '../../types';
-import { fetchServices } from '../../api';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Stack,
+  Card,
+  CardContent,
+  Divider,
+  CardMedia,
+} from "@mui/material";
+import { Item, Reservation, Service } from "../../types";
+import { fetchServices } from "../../api";
+import exampleImage from "../../images/background.jpeg";
+import ReactHtmlParser from "react-html-parser";
+import CardSlider from "../slider/CardSlider";
 
 interface Step3Props {
   reservation: Reservation;
@@ -10,13 +22,20 @@ interface Step3Props {
   onChange: (value: Service) => void;
 }
 
-const Step3: React.FC<Step3Props> = ({ reservation, onPrev, onNext, onChange }) => {
+const Step3: React.FC<Step3Props> = ({
+  reservation,
+  onPrev,
+  onNext,
+  onChange,
+}) => {
   const [services, setServices] = useState<Service[]>([]);
 
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
-        const services = await fetchServices(reservation.time.toISOString().split("T")[0]);
+        const services = await fetchServices(
+          reservation.time.toISOString().split("T")[0]
+        );
         setServices(services);
       } catch (error) {
         // Manejar el error aquí según tus necesidades
@@ -25,9 +44,10 @@ const Step3: React.FC<Step3Props> = ({ reservation, onPrev, onNext, onChange }) 
     fetchServicesData();
   }, []);
 
-  const handleSelectChange = (event: SelectChangeEvent) => {
-    const selectedServiceId = event.target.value as string;
-    const selectedService = services.find(service => service.name === selectedServiceId);
+  const handleCardSelection = (serviceId: string) => {
+    const selectedService = services.find(
+      (service) => service.name === serviceId
+    );
     if (selectedService) {
       onChange(selectedService);
     }
@@ -35,48 +55,55 @@ const Step3: React.FC<Step3Props> = ({ reservation, onPrev, onNext, onChange }) 
 
   return (
     <Grid
-    container
-    justifyContent="center"
-    alignItems="center"
-    style={{ height: '10vh' }}
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{ height: "10vh" }}
     >
-      <Box sx={{ width: 300 }}>
-        <Stack spacing={{ xs: 1, sm: 1 }} direction="row" useFlexGap flexWrap="wrap">
-          <Item><h2>Seleccionar servicio</h2></Item>
-          <Item>
-            <FormControl>
-              <InputLabel id="service-label">Servicio</InputLabel>
-              <Select
-                labelId="service-label"
-                value={reservation.service.name}
-                onChange={handleSelectChange}
-              >
-                <MenuItem value="">Seleccionar servicio</MenuItem>
-                {services.map(service => (
-                  <MenuItem key={service.name} value={service.name}>
-                    {service.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Item>
-          <Item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: '10vh' }}
-              spacing={2}
-              >
-              <Grid item><Button variant="contained" color="primary" onClick={onPrev}>Anterior</Button></Grid>
-              <Grid item><Button variant="contained" color="primary" onClick={onNext}>Siguiente</Button></Grid>
+      <Box sx={{ width: 600 }}>
+        <Item>
+          <h2>Seleccionar servicio</h2>
+        </Item>
+        <Item>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+            divider={<Divider orientation="vertical" flexItem />}
+          >
+            <CardSlider
+              numberCards={2}
+              services={services}
+              image={exampleImage}
+              onChange={onChange}
+            />
+          </Stack>
+        </Item>
+        <Item>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            style={{ height: "10vh" }}
+            spacing={2}
+          >
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={onPrev}>
+                Anterior
+              </Button>
             </Grid>
-          </Item>
-        </Stack>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={onNext}>
+                Siguiente
+              </Button>
+            </Grid>
+          </Grid>
+        </Item>
       </Box>
     </Grid>
   );
-}
+};
 
 export default Step3;

@@ -37,7 +37,7 @@ export async function createReservation(reservation: Reservation): Promise<void>
   }
 }
 
-export async function registerCustomer(customer: Customer): Promise<void> {
+export async function registerCustomer(customer: Customer): Promise<Customer> {
   try {
     const formData = new FormData();
     formData.append("Customer.Id", customer.id); // Why does it work without Id? (In back "IsNewCustomer")
@@ -55,6 +55,9 @@ export async function registerCustomer(customer: Customer): Promise<void> {
     if (!response.ok) {
       throw new Error('Error al registrar al cliente.');
     }
+
+    return await response.json() as Customer;
+    
   } catch (error) {
     console.error('Error al registrar al cliente.', error);
     throw error;
