@@ -3,7 +3,7 @@ import { Customer, Reservation } from "../../types";
 import { Grid, Button } from "@mui/material";
 import EmailLogin from "../userLogin/EmailLogin";
 import EmailRegister from "../userLogin/EmailRegister";
-import GoogleLogin from "../userLogin/GoogleLogin";
+import Google from "../userLogin/Google";
 
 interface Step5Props {
   customer: Customer;
@@ -50,13 +50,7 @@ const Step5: React.FC<Step5Props> = ({
               </Button>
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => chooseOption(3)}
-              >
-                Continuar con Google
-              </Button>
+              <Google customer={customer} onNext={onNext} onChange={onChange}/>
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" onClick={onPrev}>
@@ -76,7 +70,7 @@ const Step5: React.FC<Step5Props> = ({
     case 2:
       return <EmailRegister goBack={goBack} onNext={onNext} customer={customer} onChange={onChange}/>;
     case 3:
-      return <GoogleLogin goBack={goBack} />;
+      
     default:
       return null;
   }
