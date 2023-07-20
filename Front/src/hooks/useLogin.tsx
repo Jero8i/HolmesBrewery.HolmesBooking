@@ -5,8 +5,8 @@ export function useLogin() {
 
   const chooseOption = (n: number) => {
     setActiveOption(n);
-  }
-  
+  };
+
   const goBack = () => {
     setActiveOption(0);
   };
@@ -14,6 +14,6 @@ export function useLogin() {
   return {
     activeOption,
     chooseOption,
-    goBack
-  }
+    goBack,
+  };
 }

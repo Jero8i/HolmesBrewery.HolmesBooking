@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WelcomeStep from "./steps/WelcomeStep";
-import Step1 from "./steps/Step1";
-import Step2 from "./steps/Step2";
-import Step3 from "./steps/Step3";
+import { Step1 } from "./steps/Step1";
+import { Step2 } from "./steps/Step2";
+import { Step3 } from "./steps/Step3";
 import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
+import { fetchAllServices } from "../api";
 
 interface RenderStepContentProps {
   activeStep: number;
@@ -36,11 +37,32 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep4,
   handleChangeStep5,
   handleSubmit,
-
   activeOption,
   chooseOption,
-  goBack
+  goBack,
 }) => {
+  const [allServices, setAllServices] = useState<Service[]>([]);
+  useEffect(() => {
+    const fetchServicesData = async () => {
+      try {
+        const services = await fetchAllServices();
+        setAllServices(services);
+      } catch (error) {}
+    };
+    fetchServicesData();
+  }, []);
+
+  const getDisabledDays = () => {
+    console.log(allServices);
+    const disabledDays = [0, 1, 2, 3, 4, 5, 6];
+    const servicesKeys = allServices.flatMap((service) =>
+      Object.keys(service.schedule)
+    );
+    const servicesDays = servicesKeys.map((key) => parseInt(key));
+
+    return disabledDays.filter((day) => !servicesDays.includes(day));
+  };
+
   switch (activeStep) {
     case -1:
       return <WelcomeStep onNext={handleNext} />;
@@ -48,7 +70,6 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
       return (
         <Step1
           numberDiners={reservation.numberDiners}
-          onPrev={handlePrev}
           onNext={handleNext}
           onChange={handleChangeStep1}
         />
@@ -57,16 +78,15 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
       return (
         <Step2
           date={reservation.time.toISOString().split("T")[0]}
-          onPrev={handlePrev}
           onNext={handleNext}
           onChange={handleChangeStep2}
+          disabledDays={getDisabledDays()}
         />
       );
     case 2:
       return (
         <Step3
           reservation={reservation}
-          onPrev={handlePrev}
           onNext={handleNext}
           onChange={handleChangeStep3}
         />
@@ -74,9 +94,7 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
     case 3:
       return (
         <Step4
-          time={`${reservation.time.toLocaleDateString()}`}
           reservation={reservation}
-          onPrev={handlePrev}
           onNext={handleNext}
           onChange={handleChangeStep4}
         />

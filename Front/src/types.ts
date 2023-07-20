@@ -2,13 +2,13 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 
 export enum DayOfWeek {
-    lunes,
-    martes,
-    miércoles,
-    jueves,
-    viernes,
-    sábado,
-    domingo
+  lunes,
+  martes,
+  miércoles,
+  jueves,
+  viernes,
+  sábado,
+  domingo,
 }
 
 export enum Classification {
@@ -43,7 +43,7 @@ export interface Reservation {
   service: Service;
   time: Date;
   state: number;
-  numberDiners: number
+  numberDiners: number;
   note: string;
 }
 
@@ -55,6 +55,7 @@ export interface Service {
   isActive: boolean;
   maxPeople: number;
   schedule: Schedule;
+  description: string;
 }
 
 export interface Schedule {

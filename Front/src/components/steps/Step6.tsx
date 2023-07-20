@@ -24,12 +24,14 @@ const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
   return (
     <Grid
       container
+      height="100%"
       justifyContent="center"
       alignItems="center"
       style={{ height: "10vh" }}
     >
-      <Box sx={{ width: 300 }}>
+      <Box sx={{ width: 300 }} height="100%">
         <Stack
+          height="100%"
           spacing={{ xs: 1, sm: 1 }}
           direction="row"
           useFlexGap
@@ -74,6 +76,12 @@ const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
                 </Button>
               </Grid>
             </Grid>
+          </Item>
+          <Item>
+            <p>Item extra: {reservation.service.name}</p>
+          </Item>
+          <Item>
+            <p>Item extra2: {reservation.service.name}</p>
           </Item>
         </Stack>
       </Box>

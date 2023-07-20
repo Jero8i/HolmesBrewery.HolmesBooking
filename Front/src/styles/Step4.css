@@ -1,0 +1,32 @@
+@import 'Palette.css';
+
+.scroll {
+	overflow-x: scroll; 
+  white-space: nowrap; 
+  scroll-padding: 10% 10%;
+}
+
+.scroll::-webkit-scrollbar {
+  height: 8px; 
+  
+}
+
+.scroll::-webkit-scrollbar-track:disabled {
+  background-color: var(--color-primary-light);
+}
+
+.scroll::-webkit-scrollbar-track {
+  background-color: var(--color-secondary);
+  border-radius: 5px;
+  margin: 0px 5px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-info-light);
+  border-radius: 5px;
+  margin-top: 10%;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-info)
+}
