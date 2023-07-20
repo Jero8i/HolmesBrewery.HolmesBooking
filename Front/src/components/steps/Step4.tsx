@@ -1,118 +1,72 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-} from "@mui/material";
-import { Item, Reservation } from "../../types";
+import { useState } from "react";
+import { Divider, Stack, Typography } from "@mui/material";
+import { Reservation } from "../../types";
+import { theme } from "../../styles/themeProvider";
 
-function getDayOfWeek(date: Date): number {
-  const day = date.getDay();
-
-  switch (day) {
-    case 6:
-      return 0;
-    default:
-      return day + 1;
-  }
-}
+import "../../styles/Step4.css";
+import { HourButton } from "../Buttons";
+import { useWindowRezise } from "../../hooks/useWindowRezise";
 
 interface Step4Props {
-  time: string;
   reservation: Reservation;
-  onPrev: () => void;
   onNext: () => void;
   onChange: (value: string) => void;
 }
 
-const Step4: React.FC<Step4Props> = ({
-  time,
-  reservation,
-  onPrev,
-  onNext,
-  onChange,
-}) => {
+const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
+  const scheduleTimes =
+    reservation.service?.schedule[reservation.time.getDay()];
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  console.log(reservation.time.getTime().toString());
+  console.log(
+    reservation.time.getHours() + ":" + reservation.time.getMinutes()
+  );
 
-  const handleSelectChange = (event: SelectChangeEvent) => {
-    onChange(event.target.value as string);
+  const handleButtonClick = (time: string) => {
+    setSelectedTime(time);
+    onChange(time);
+    onNext();
   };
-  
-  const date = reservation.time;
-  console.log(`reservation.time: ${reservation.time}`);
-  console.log(`dayOfWeekBefore: ${reservation.time.getDay()}`);
-  const dayOfWeek = getDayOfWeek(date);
-  console.log(`dayOfWeekAfter: ${dayOfWeek}`);
-  const scheduleTimes = reservation.service?.schedule[reservation.time.getDay()];
-  const defaultValue = scheduleTimes?.includes(reservation.time.toLocaleTimeString()) ? reservation.time.toLocaleTimeString() : "";
+
+  const { isMobile } = useWindowRezise();
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      style={{ height: "10vh" }}
-    >
-      <Box sx={{ width: 300 }}>
-        <Stack
-          spacing={{ xs: 1, sm: 1 }}
-          direction="row"
-          useFlexGap
-          flexWrap="wrap"
+    <>
+      <Stack sx={{ mt: isMobile ? "-10%" : "-8%", alignItems: "center" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            justifyContent: "center",
+            color: theme.palette.info.main,
+            fontFamily: "Roboto Slab, serif",
+            fontWeight: "bold",
+            fontSize: "140%",
+          }}
         >
-          <Item>
-            <h2>Seleccionar horario</h2>
-          </Item>
-          <Item>
-            <FormControl>
-              <InputLabel id="time-label">Horario</InputLabel>
-              <Select
-                labelId="time-label"
-                value={defaultValue}
-                onChange={handleSelectChange}
-              >
-                <MenuItem value="">Seleccionar horario</MenuItem>
-                {scheduleTimes &&
-                  scheduleTimes.map((timeString, index) => (
-                    <MenuItem
-                      key={index}
-                      value={timeString}
-                    >
-                      {timeString}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Item>
-          <Item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: "10vh" }}
-              spacing={2}
-            >
-              <Grid item>
-                <Button variant="contained" color="primary" onClick={onPrev}>
-                  Anterior
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="primary" onClick={onNext}>
-                  Siguiente
-                </Button>
-              </Grid>
-            </Grid>
-          </Item>
-        </Stack>
-      </Box>
-    </Grid>
+          Elija un horario
+        </Typography>
+      </Stack>
+
+      <Divider sx={{ mt: "2%" }} />
+
+      <Stack sx={{ width: "100%", mt: "8%" }}>
+        <div
+          className="scroll"
+          style={{
+            textAlign: "center",
+          }}
+        >
+          {scheduleTimes &&
+            scheduleTimes.map((timeString, index) => (
+              <HourButton
+                value={timeString.slice(0, 5)}
+                selectedValue={selectedTime}
+                handleButtonClick={handleButtonClick}
+              />
+            ))}
+        </div>
+      </Stack>
+    </>
   );
 };
 

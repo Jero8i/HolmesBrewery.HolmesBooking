@@ -66,9 +66,18 @@ const Step5: React.FC<Step5Props> = ({
         </div>
       );
     case 1:
-      return <EmailLogin goBack={goBack} onNext={onNext} reservation={reservation}/>;
+      return (
+        <EmailLogin goBack={goBack} onNext={onNext} reservation={reservation} />
+      );
     case 2:
-      return <EmailRegister goBack={goBack} onNext={onNext} customer={customer} onChange={onChange}/>;
+      return (
+        <EmailRegister
+          goBack={goBack}
+          onNext={onNext}
+          customer={customer}
+          onChange={onChange}
+        />
+      );
     case 3:
       
     default:

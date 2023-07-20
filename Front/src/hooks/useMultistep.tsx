@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  Customer,
-  Reservation,
-  Service,
-} from "../types";
+import { Customer, Reservation, Service } from "../types";
 
 export function useMultistep() {
   const [activeStep, setActiveStep] = useState(-1);
@@ -19,7 +15,7 @@ export function useMultistep() {
       classification: 0,
     },
     service: {
-      id: '',
+      id: "",
       name: "",
       startDate: new Date(),
       endDate: new Date(),
@@ -47,8 +43,8 @@ export function useMultistep() {
   };
 
   const handleChangeStep2 = (date: string) => {
-    const [day, month, year] = date.split('/');
-    const time = new Date(Number(year)+2000, Number(month)-1, Number(day));
+    const [day, month, year] = date.split("-");
+    const time = new Date(Number(year), Number(month) - 1, Number(day));
     setReservation({ ...reservation, time });
   };
 
@@ -64,7 +60,6 @@ export function useMultistep() {
     if (!isNaN(hours) && !isNaN(minutes)) {
       const time = reservation.time;
       time.setHours(hours, minutes);
-
       console.log(`Time in handleChangeStep4: ${time}`);
       console.log(`JSON Time in handleChangeStep4: ${JSON.stringify(time)}`);
       setReservation({ ...reservation, time });
@@ -72,7 +67,7 @@ export function useMultistep() {
   };
 
   const handleChangeStep5 = (customer: Customer) => {
-    setReservation({ ...reservation, customer});
+    setReservation({ ...reservation, customer });
   };
 
   const handleSubmit = () => {

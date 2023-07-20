@@ -1,8 +1,19 @@
 import { Customer, Reservation, Service } from "./types";
 
+export async function fetchAllServices(): Promise<Service[]> {
+  try {
+    const response = await fetch(`https://holmesbooking.com/all-active-services`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al obtener los servicios:', error);
+    throw error;
+  }
+}
+
 export async function fetchServices(date: string): Promise<Service[]> {
   try {
-    const response = await fetch(`http://holmessoftware-001-site1.atempurl.com/available-services/${encodeURIComponent(date)}`);
+    const response = await fetch(`https://holmesbooking.com/available-services/${encodeURIComponent(date)}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -22,7 +33,7 @@ export async function createReservation(reservation: Reservation): Promise<void>
     formData.append("Reservation.TimeSelected", reservation.time.toLocaleTimeString());
     formData.append("Reservation.State", reservation.state.toString());
     formData.append("Reservation.Note", reservation.note!);
-    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/save-reservation', {
+    const response = await fetch('https://holmesbooking.com/save-reservation', {
       method: 'POST',
       body: formData,
     });
@@ -47,7 +58,7 @@ export async function registerCustomer(customer: Customer): Promise<Customer> {
     formData.append("Customer.PhoneNumber", customer.phonenumber);
     formData.append("Customer.Password", customer.password);
     formData.append("Customer.Classification", customer.classification.toString());
-    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/save-customer', {
+    const response = await fetch('https://holmesbooking.com/save-customer', {
       method: 'POST',
       body: formData,
     });
@@ -73,7 +84,7 @@ export async function googleLoginCustomer(customer: Customer): Promise<Customer>
     formData.append("Customer.PhoneNumber", customer.phonenumber);
     formData.append("Customer.Password", customer.password);
     formData.append("Customer.Classification", customer.classification.toString());
-    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/external-login', {
+    const response = await fetch('https://holmesbooking.com/external-login', {
       method: 'POST',
       body: formData,
     });
@@ -96,7 +107,7 @@ export async function customerLogin(email: string, password: string): Promise<Cu
     formData.append("Username", email);
     formData.append("Password", password);
     formData.append("CalledFromAdmin", "false");
-    const response = await fetch('http://holmessoftware-001-site1.atempurl.com/users/login', {
+    const response = await fetch('https://holmesbooking.com/users/login', {
       method: 'POST',
       body: formData,
     });
