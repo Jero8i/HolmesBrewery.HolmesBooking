@@ -1,7 +1,6 @@
 import React from "react";
 import { useMultistep } from "./hooks/useMultistep";
 import { useWindowRezise } from "./hooks/useWindowRezise";
-import { useLogin } from "./hooks/useLogin";
 
 import { RenderStepContent } from "./components/RenderStepContent";
 import { Box, Paper, Stack } from "@mui/material";
@@ -24,8 +23,6 @@ function App() {
     handleChangeStep5,
     handleSubmit,
   } = useMultistep();
-
-  const { activeOption, chooseOption, goBack } = useLogin();
 
   const { isMedium, isSmall, isMobile } = useWindowRezise();
 
@@ -96,9 +93,6 @@ function App() {
             handleChangeStep4={handleChangeStep4}
             handleChangeStep5={handleChangeStep5}
             handleSubmit={handleSubmit}
-            activeOption={activeOption}
-            chooseOption={chooseOption}
-            goBack={goBack}
           />
         </Stack>
       </Paper>

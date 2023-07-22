@@ -4,14 +4,14 @@ import React from "react";
 import { registerCustomer } from "../../api";
 
 interface EmailRegisterProps {
-  goBack: () => void;
+  setActiveOption: (n: number) => void;
   onNext: () => void;
   customer: Customer;
   onChange: (customer: Customer) => void;
 }
 
 const EmailRegister: React.FC<EmailRegisterProps> = ({
-  goBack,
+  setActiveOption,
   onNext,
   customer,
   onChange,
@@ -102,7 +102,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
                 spacing={2}
               >
                 <Grid item>
-                  <Button variant="contained" color="primary" onClick={goBack}>
+                  <Button variant="contained" color="primary" onClick={() => setActiveOption(0)}>
                     Volver
                   </Button>
                 </Grid>

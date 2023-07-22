@@ -10,76 +10,34 @@ interface Step5Props {
   reservation: Reservation;
   onPrev: () => void;
   onNext: () => void;
-  activeOption: number;
-  chooseOption: (n: number) => void;
-  goBack: () => void;
   onChange: (customer: Customer) => void;
 }
 
 const Step5: React.FC<Step5Props> = ({
   customer,
   reservation,
-  onPrev,
   onNext,
-  activeOption,
-  chooseOption,
-  goBack,
   onChange,
 }) => {
+
+  const [activeOption, setActiveOption] = useState(0);
+  
   switch (activeOption) {
     case 0:
       return (
-        <div>
-          <Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => chooseOption(1)}
-              >
-                Iniciar Sesion
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => chooseOption(2)}
-              >
-                Registrarse con Email
-              </Button>
-            </Grid>
-            <Grid item>
-              <Google customer={customer} onNext={onNext} onChange={onChange}/>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" onClick={onPrev}>
-                Anterior
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" onClick={onNext}>
-                Siguiente
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
+        <EmailLogin setActiveOption={setActiveOption} onNext={onNext} reservation={reservation} />
       );
+
     case 1:
       return (
-        <EmailLogin goBack={goBack} onNext={onNext} reservation={reservation} />
-      );
-    case 2:
-      return (
         <EmailRegister
-          goBack={goBack}
+          setActiveOption={setActiveOption}
           onNext={onNext}
           customer={customer}
           onChange={onChange}
         />
       );
-    case 3:
-      
+
     default:
       return null;
   }

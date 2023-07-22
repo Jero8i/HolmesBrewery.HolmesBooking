@@ -20,10 +20,6 @@ interface RenderStepContentProps {
   handleChangeStep4: (scheduleTime: string) => void;
   handleChangeStep5: (customer: Customer) => void;
   handleSubmit: () => void;
-
-  activeOption: number;
-  chooseOption: (n: number) => void;
-  goBack: () => void;
 }
 
 export const RenderStepContent: React.FC<RenderStepContentProps> = ({
@@ -37,9 +33,6 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep4,
   handleChangeStep5,
   handleSubmit,
-  activeOption,
-  chooseOption,
-  goBack,
 }) => {
   const [allServices, setAllServices] = useState<Service[]>([]);
   useEffect(() => {
@@ -106,9 +99,6 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
           reservation={reservation}
           onPrev={handlePrev}
           onNext={handleNext}
-          activeOption={activeOption}
-          chooseOption={chooseOption}
-          goBack={goBack}
           onChange={handleChangeStep5}
         />
       );
