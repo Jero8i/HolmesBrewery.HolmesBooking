@@ -16,7 +16,12 @@ interface Step4Props {
 const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
   const scheduleTimes =
     reservation.service?.schedule[reservation.time.getDay()];
-  const [selectedTime, setSelectedTime] = useState<string>(`${reservation.time.getHours()}:${reservation.time.getMinutes().toString().padStart(2, '0')}`);
+  const [selectedTime, setSelectedTime] = useState<string>(
+    `${reservation.time.getHours()}:${reservation.time
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`
+  );
 
   const handleButtonClick = (time: string) => {
     setSelectedTime(time);
@@ -55,6 +60,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
           {scheduleTimes &&
             scheduleTimes.map((timeString, index) => (
               <HourButton
+                key={index}
                 value={timeString.slice(0, 5)}
                 selectedValue={selectedTime}
                 handleButtonClick={handleButtonClick}

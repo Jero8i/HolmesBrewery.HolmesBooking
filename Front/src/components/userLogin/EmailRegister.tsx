@@ -1,21 +1,34 @@
-import { Box, Button, Grid, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Customer, Item } from "../../types";
-import React from "react";
+import React, { useState } from "react";
 import { registerCustomer } from "../../api";
+import { theme } from "../../styles/themeProvider";
 
 interface EmailRegisterProps {
-  setActiveOption: (n: number) => void;
-  onNext: () => void;
   customer: Customer;
+  onNext: () => void;
   onChange: (customer: Customer) => void;
 }
 
 const EmailRegister: React.FC<EmailRegisterProps> = ({
-  setActiveOption,
   onNext,
   customer,
   onChange,
 }) => {
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  
+
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     onChange({ ...customer, [name]: value });
@@ -25,102 +38,80 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
     event.preventDefault();
     try {
       const customerId = (await registerCustomer(customer)).id;
-      onChange({...customer, ["id"]: customerId});
+      onChange({ ...customer, ["id"]: customerId });
       onNext();
     } catch (error) {
       //error handling
     }
   };
-  
+
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      style={{ height: "10vh" }}
-    >
-      <Box sx={{ width: 300 }}>
-        <Stack
-          spacing={{ xs: 1, sm: 1 }}
-          direction="row"
-          useFlexGap
-          flexWrap="wrap"
+    <>
+      <Stack sx={{ mt: "5%", alignItems: "center" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            justifyContent: "center",
+            color: theme.palette.info.main,
+            fontFamily: "Roboto Slab, serif",
+            fontWeight: "bold",
+            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+          }}
         >
-          <Item>
-            <h2>Registrarse con Email</h2>
-          </Item>
-          <form onSubmit={handleRegister}>
-            <Item>
-              <TextField
-                type="text"
-                label="Nombre"
-                name="name"
-                required
-                value={customer.name}
-                onChange={handleInputChange}
-              ></TextField>
-              <TextField
-                type="text"
-                label="Apellido"
-                name="lastname"
-                required
-                value={customer.lastname}
-                onChange={handleInputChange}
-              ></TextField>
-              <TextField
-                type="email"
-                label="Email"
-                name="email"
-                required
-                value={customer.email}
-                onChange={handleInputChange}
-              ></TextField>
-              <TextField
-                type="number"
-                label="Teléfono"
-                name="phonenumber"
-                required
-                value={customer.phonenumber}
-                onChange={handleInputChange}
-              ></TextField>
-              <TextField
-                type="password"
-                label="Contraseña"
-                name="password"
-                required
-                value={customer.password}
-                onChange={handleInputChange}
-              ></TextField>
-            </Item>
-            <Item>
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ height: "10vh" }}
-                spacing={2}
-              >
-                <Grid item>
-                  <Button variant="contained" color="primary" onClick={() => setActiveOption(0)}>
-                    Volver
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Confirmar
-                  </Button>
-                </Grid>
-              </Grid>
-            </Item>
-          </form>
-        </Stack>
-      </Box>
-    </Grid>
+          Registrarse
+        </Typography>
+      </Stack>
+
+      <Divider sx={{ mt: "2%" }} />
+      <Stack
+        spacing={{ xs: "5px", sm: "5px", md: "10px", lg: "15px" }}
+        sx={{ margin: "5% 2% 0% 2%", justifyContent: "center" }}
+      >
+        <TextField
+          type="text"
+          label="Nombre"
+          name="name"
+          required
+          value={customer.name}
+          onChange={handleInputChange}
+        ></TextField>
+        <TextField
+          type="text"
+          label="Apellido"
+          name="lastname"
+          required
+          value={customer.lastname}
+          onChange={handleInputChange}
+        ></TextField>
+        <TextField
+          type="email"
+          label="Email"
+          name="email"
+          required
+          value={customer.email}
+          onChange={handleInputChange}
+        ></TextField>
+        <TextField
+          type="number"
+          label="Teléfono"
+          name="phonenumber"
+          required
+          value={customer.phonenumber}
+          onChange={handleInputChange}
+        ></TextField>
+        <TextField
+          type="password"
+          label="Contraseña"
+          name="password"
+          required
+          value={customer.password}
+          onChange={handleInputChange}
+        ></TextField>
+        <Button variant="contained" color="primary" onClick={handleRegister}>
+          Confirmar
+        </Button>
+      </Stack>
+    </>
   );
 };
 
