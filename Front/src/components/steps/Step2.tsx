@@ -54,7 +54,7 @@ export const Step2: React.FC<Step2Props> = ({
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'100%', mt: "2%" }} />
 
       <Stack sx={{ margin: "5% 0% 10% 0%" }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>

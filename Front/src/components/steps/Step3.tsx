@@ -51,7 +51,7 @@ export const Step3: React.FC<Step3Props> = ({
           Seleccione un Servicio
         </Typography>
       </Stack>
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'80%', mt: "2%" }} />
       <Stack
         sx={{ margin: "5% 0% 5% 0%", width: "100%", justifyContent: "center" }}
       >

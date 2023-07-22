@@ -21,6 +21,9 @@ export const theme = createTheme({
       light: "#99582A",
       dark: '#432818',
     },
+    error:{
+      main: "#D50700",
+    }
   },
   typography: {
     fontFamily: ["Josefin Sans, sans-serif", "Roboto Slab, serif"].join(","),

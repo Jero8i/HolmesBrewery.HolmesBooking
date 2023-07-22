@@ -2,6 +2,7 @@ import React from "react";
 import { useMultistep } from "./hooks/useMultistep";
 import { useWindowRezise } from "./hooks/useWindowRezise";
 
+
 import { RenderStepContent } from "./components/RenderStepContent";
 import { Box, Paper, Stack } from "@mui/material";
 import { StepperComponent } from "./components/StepperComponent";
@@ -80,6 +81,7 @@ function App() {
             width: activeStep !== -1 && activeStep !== 1 ? "100%" : "auto",
             flexGrow: 1,
             justifyContent: "center",
+            alignItems:"center",
           }}
         >
           <RenderStepContent

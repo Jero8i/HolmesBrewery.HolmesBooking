@@ -44,7 +44,7 @@ const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
         </Typography>
       </Stack>
 
-      <Stack direction={{ sm: "row" }} sx={{ mt: "8%", alignItems: "center" }}>
+      <Stack direction={{ sm: "row" }} sx={{ mt: "8%", alignItems: "center", width:'100%'}}>
         <Button
           variant="contained"
           size={isSmall ? "small" : isMedium ? "medium" : "large"}

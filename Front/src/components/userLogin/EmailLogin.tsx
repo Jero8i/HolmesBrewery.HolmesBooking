@@ -1,15 +1,7 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Item, Reservation } from "../../types";
+import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Reservation } from "../../types";
 import React, { useState } from "react";
-import { customerLogin, fetchAllServices } from "../../api";
+import { customerLogin } from "../../api";
 import { theme } from "../../styles/themeProvider";
 
 interface EmailLoginProps {
@@ -29,6 +21,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
   const [emailHelperText, setEmailHelperText] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordHelperText, setPasswordHelperText] = useState("");
+  const [invalidData, setInvalidData] = useState(false);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -38,25 +31,30 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
     setPassword(event.target.value);
   };
 
-  const validateData = () => {
-    if (password.trim() === "" || password == null) {
+  const validateData = (): boolean => {
+    if (email.trim() === "") {
+      setEmailHelperText("El correo electrónico no puede estar vacío");
+      setEmailError(true);
+      return true;
+    } else if (!isValidEmail(email)) {
+      setEmailHelperText("El formato del correo electrónico no es válido");
+      setEmailError(true);
+      return true;
+    } else {
+      setEmailHelperText("");
+      setEmailError(false);
+    }
+
+    if (password.trim() === "") {
       setPasswordHelperText("La contraseña no puede estar vacía");
       setPasswordError(true);
+      return true;
     } else {
       setPasswordHelperText("");
       setPasswordError(false);
     }
 
-    if (email.trim() === "" || email == null) {
-      setEmailHelperText("El correo electrónico no puede estar vacío");
-      setEmailError(true);
-    } else if (!isValidEmail(email)) {
-      setEmailHelperText("El formato del correo electrónico no es válido");
-      setEmailError(true);
-    } else {
-      setEmailHelperText("");
-      setEmailError(false);
-    }
+    return false;
   };
 
   const isValidEmail = (email: string) => {
@@ -67,13 +65,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    validateData();
-    console.log(email + ", " + password);
-    console.log(emailError + ", " + passwordError);
-
-
-    if (!emailError && !passwordError) {
-      console.log("Datos validos");
+    if (!validateData()) {
       try {
         const customer = await customerLogin(email, password);
         console.log("Datos del cliente desde el Back:");
@@ -81,14 +73,14 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
         reservation.customer = customer;
         onNext();
       } catch (error) {
-        console.log("No encontre el customer");
+        setInvalidData(true);
       }
     }
   };
 
   return (
     <>
-      <Stack sx={{ mt: "-8%", alignItems: "center" }}>
+      <Stack sx={{ alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
@@ -103,11 +95,15 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{ width: "80%", mt: "2%", mb:"2%" }} />
 
       <Stack
-        spacing={{ xs: "5px", sm: "5px", md: "10px", lg: "15px" }}
-        sx={{ margin: "5% 2% 0% 2%", justifyContent: "center" }}
+        spacing={2}
+        sx={{
+          margin: "2% 5% 0% 5%",
+          width: { md: "50%" },
+          justifyContent: "center",
+        }}
       >
         <TextField
           type="email"
@@ -117,7 +113,9 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
           error={emailError}
           helperText={emailHelperText}
           required
+          color="info"
         ></TextField>
+
         <TextField
           type="password"
           label="Contraseña"
@@ -125,7 +123,21 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
           onChange={handlePasswordChange}
           error={passwordError}
           helperText={passwordHelperText}
+          color="info"
         ></TextField>
+
+        {invalidData && (
+          <Typography
+            sx={{
+              textAlign:'center',
+              color: theme.palette.error.main,
+              fontWeight: "bold",
+            }}
+          >
+            Email o contraseña incorrectos
+          </Typography>
+        )}
+
         <Button variant="contained" color="primary" onClick={handleLogin}>
           Iniciar Sesión
         </Button>
@@ -137,51 +149,6 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
         sx={{ margin: "5% 2% 0% 2%", justifyContent: "center" }}
       ></Stack>
     </>
-    /*
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      style={{ height: "10vh" }}
-    >
-      <Box sx={{ width: 300 }}>
-        <Stack
-          spacing={{ xs: 1, sm: 1 }}
-          direction="row"
-          useFlexGap
-          flexWrap="wrap"
-        >
-          <Item>
-            <h2>Iniciar Sesión</h2>
-          </Item>
-          <form >
-            <Item>
-              
-            </Item>
-            <Item>
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                style={{ height: "10vh" }}
-                spacing={2}
-              >
-                <Grid item>
-                  <Button variant="contained" color="primary" onClick={goBack}>
-                    Volver
-                  </Button>
-                </Grid>
-                <Grid item>
-                  
-                </Grid>
-              </Grid>
-            </Item>
-          </form>
-        </Stack>
-      </Box>
-    </Grid> 
-    */
   );
 };
 

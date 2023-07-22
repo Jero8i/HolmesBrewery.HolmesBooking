@@ -43,7 +43,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'90%', mt: "2%" }} />
 
       <Stack sx={{ width: "100%", mt: "8%" }}>
         <div

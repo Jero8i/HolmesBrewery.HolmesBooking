@@ -76,7 +76,7 @@ export const Step1: React.FC<Step1Props> = ({
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'80%', mt: "2%" }} />
 
       <Stack
         direction="row"
@@ -122,6 +122,7 @@ export const Step1: React.FC<Step1Props> = ({
           direction="row"
           spacing={2}
           sx={{
+            width: '100%',
             mt: isMobile
               ? "10%"
               : isSmall
