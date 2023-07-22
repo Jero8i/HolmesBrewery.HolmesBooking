@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, MobileStepper } from "@mui/material";
-import { Service } from "../../types";
+import { Reservation, Service } from "../../types";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { ServiceCard } from "./ServiceCard";
 
@@ -8,14 +8,24 @@ interface CardSliderProps {
   services: Service[];
   onNext: () => void;
   onChange: (value: Service) => void;
+  reservation: Reservation;
 }
 
 const CardSlider: React.FC<CardSliderProps> = ({
   services,
   onNext,
   onChange,
+  reservation,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const findIndex = (serviceId: string): number => {
+    return reservation.service.name !== ""
+      ? services.findIndex((service) => service.name === serviceId)
+      : 0;
+  };
+
+  const [activeIndex, setActiveIndex] = useState(
+    findIndex(reservation.service.name)
+  );
   const maxSteps = services.length;
 
   const handleNextService = () => {

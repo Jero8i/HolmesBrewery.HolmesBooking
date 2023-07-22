@@ -56,7 +56,7 @@ export const Step3: React.FC<Step3Props> = ({
         sx={{ margin: "5% 0% 5% 0%", width: "100%", justifyContent: "center" }}
       >
         {!isLoading && (
-          <CardSlider services={services} onChange={onChange} onNext={onNext} />
+          <CardSlider services={services} onChange={onChange} onNext={onNext} reservation={reservation}/>
         )}
       </Stack>
     </>

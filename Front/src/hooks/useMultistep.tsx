@@ -60,8 +60,6 @@ export function useMultistep() {
     if (!isNaN(hours) && !isNaN(minutes)) {
       const time = reservation.time;
       time.setHours(hours, minutes);
-      console.log(`Time in handleChangeStep4: ${time}`);
-      console.log(`JSON Time in handleChangeStep4: ${JSON.stringify(time)}`);
       setReservation({ ...reservation, time });
     }
   };
