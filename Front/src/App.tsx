@@ -80,7 +80,7 @@ function App() {
 
         <Stack
           sx={{
-            width: activeStep !== -1 ? "100%" : "auto",
+            width: activeStep !== -1 && activeStep !== 1 ? "100%" : "auto",
             flexGrow: 1,
             justifyContent: "center",
           }}
