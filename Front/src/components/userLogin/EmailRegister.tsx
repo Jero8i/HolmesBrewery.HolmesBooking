@@ -56,7 +56,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
         setInvalidData(true);
       }
     } else {
-      setInvalidData(false);
+      setInvalidData(true);
     }
   };
 

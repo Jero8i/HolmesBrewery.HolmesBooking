@@ -80,7 +80,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ onNext, reservation }) => {
         setInvalidData(true);
       }
     } else {
-      setInvalidData(false);
+      setInvalidData(true);
     }
   };
 
