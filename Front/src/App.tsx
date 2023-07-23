@@ -1,6 +1,6 @@
 import React from "react";
 import { useMultistep } from "./hooks/useMultistep";
-import { useWindowRezise } from "./hooks/useWindowRezise";
+import { useWindowResize } from "./hooks/useWindowResize";
 
 
 import { RenderStepContent } from "./components/RenderStepContent";
@@ -25,7 +25,7 @@ function App() {
     handleSubmit,
   } = useMultistep();
 
-  const { isMedium, isSmall, isMobile } = useWindowRezise();
+  const { isMedium, isSmall, isMobile } = useWindowResize();
 
   return (
     <Box

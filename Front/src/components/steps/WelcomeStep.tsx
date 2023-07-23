@@ -2,11 +2,10 @@ import React from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import LoginIcon from "@mui/icons-material/Login";
-import { useWindowRezise } from "../../hooks/useWindowRezise";
-import { theme } from "../../styles/themeProvider";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
-  const { isMedium, isSmall, isMobile } = useWindowRezise();
+  const { isMedium, isSmall, isMobile } = useWindowResize();
 
   return (
     <>

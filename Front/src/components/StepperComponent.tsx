@@ -7,10 +7,10 @@ import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 import LoginIcon from "@mui/icons-material/Login";
 
 import "../styles/Stepper.css";
-import { useWindowRezise } from "../hooks/useWindowRezise";
+import { useWindowResize } from "../hooks/useWindowResize";
 
 export const StepperComponent = ({ activeStep }: { activeStep: number }) => {
-  const { isMedium, isMobile } = useWindowRezise();
+  const { isMedium, isMobile } = useWindowResize();
 
   return (
     <>

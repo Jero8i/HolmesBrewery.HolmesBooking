@@ -1,28 +1,37 @@
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HttpsIcon from "@mui/icons-material/Https";
+import ErrorIcon from "@mui/icons-material/Error";
+
 import { Reservation } from "../../types";
 
 import React, { useState } from "react";
 import { customerLogin } from "../../api";
 
 import { theme } from "../../styles/themeProvider";
-import Google from "./Google";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 interface EmailLoginProps {
   onNext: () => void;
   reservation: Reservation;
 }
 
-const EmailLogin: React.FC<EmailLoginProps> = ({
-  onNext,
-  reservation,
-}) => {
-  const [email, setEmail] = useState("");
+const EmailLogin: React.FC<EmailLoginProps> = ({ onNext, reservation }) => {
+  const [email, setEmail] = useState(reservation.customer.email);
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const [invalidData, setInvalidData] = useState(false);
 
+  const { isMobile } = useWindowResize();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -70,12 +79,14 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
       } catch (error) {
         setInvalidData(true);
       }
+    } else {
+      setInvalidData(false);
     }
   };
 
   return (
     <>
-      <Stack sx={{ alignItems: "center" }}>
+      <Stack sx={{ mt: isMobile ? "5%" : "3%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
@@ -90,13 +101,15 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
         </Typography>
       </Stack>
 
-      <Divider sx={{ width: "80%", mt: "2%", mb:"2%" }} />
+      <Divider sx={{ width: "80%", mt: "2%", mb: isMobile ? "5%" : "2%" }} />
 
       <Stack
         spacing={2}
         sx={{
           margin: "2% 5% 0% 5%",
-          width: { md: "50%" },
+          width: isMobile
+            ? "80%"
+            : { xs: "70%", sm: "60%", md: "60%", lg: "50%" },
           justifyContent: "center",
         }}
       >
@@ -107,30 +120,51 @@ const EmailLogin: React.FC<EmailLoginProps> = ({
           onChange={handleEmailChange}
           error={!!emailError}
           helperText={emailError}
-          required
           color="info"
-        ></TextField>
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircleIcon color="info" />
+              </InputAdornment>
+            ),
+          }}
+        />
 
         <TextField
           type="password"
           label="Contraseña"
-          required
           onChange={handlePasswordChange}
           error={!!passwordError}
           helperText={passwordError}
           color="info"
-        ></TextField>
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <HttpsIcon color="info" />
+              </InputAdornment>
+            ),
+          }}
+        />
 
         {invalidData && (
-          <Typography
-            sx={{
-              textAlign:'center',
-              color: theme.palette.error.main,
-              fontWeight: "bold",
-            }}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ justifyContent: "center", textAlign: "center" }}
           >
-            Email o contraseña incorrectos
-          </Typography>
+            <ErrorIcon
+              fontSize="small"
+              sx={{ color: theme.palette.error.main }}
+            />
+            <Typography
+              sx={{
+                color: theme.palette.error.main,
+                fontWeight: "bold",
+              }}
+            >
+              Email o contraseña incorrectos
+            </Typography>
+          </Stack>
         )}
 
         <Button variant="contained" color="primary" onClick={handleLogin}>

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useWindowRezise } from "../../hooks/useWindowRezise";
+import { useWindowResize } from "../../hooks/useWindowResize";
 import { theme } from "../../styles/themeProvider";
 import { NumberButton } from "../Buttons";
 
@@ -30,7 +30,7 @@ export const Step1: React.FC<Step1Props> = ({
   const [showTextField, setShowTextField] = useState<boolean>(false);
   const [isNegative, setIsNegative] = useState<boolean>(false);
 
-  const { isSmall, isMobile } = useWindowRezise();
+  const { isSmall, isMobile } = useWindowResize();
 
   const handleButtonClick = (value: number | string) => {
     setSelectedValue(value);
@@ -144,7 +144,7 @@ export const Step1: React.FC<Step1Props> = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonAddIcon />
+                  <PersonAddIcon color='info'/>
                 </InputAdornment>
               ),
             }}

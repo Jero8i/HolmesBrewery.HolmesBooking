@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Customer, Reservation } from "../../types";
-import { Grid, Button, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import EmailLogin from "../userLogin/EmailLogin";
 import EmailRegister from "../userLogin/EmailRegister";
 import Google from "../userLogin/Google";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 interface LoginOptionsProps {
   customer: Customer;
@@ -20,15 +21,35 @@ const LoginOptions: React.FC<LoginOptionsProps> = ({
   activeOption,
   setActiveOption,
 }) => {
+  const { isMobile } = useWindowResize();
+
   return (
-    <Stack direction="row">
-      <Google customer={customer} onNext={onNext} onChange={onChange}></Google>
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        mt: isMobile ? "3%" : "1%",
+        mb: isMobile ? "10%" : "8%",
+        width: isMobile
+          ? "80%"
+          : { xs: "70%", sm: "60%", md: "60%", lg: "50%" },
+      }}
+    >
+      <Google customer={customer} onNext={onNext} onChange={onChange}/>
       {activeOption === 1 ? (
-        <Button variant="contained" onClick={() => setActiveOption(0)}>
+        <Button
+          variant="contained"
+          onClick={() => setActiveOption(0)}
+          sx={{ flexGrow: "1" }}
+        >
           Iniciar Sesión
         </Button>
       ) : (
-        <Button variant="contained" onClick={() => setActiveOption(1)}>
+        <Button
+          variant="contained"
+          onClick={() => setActiveOption(1)}
+          sx={{ flexGrow: "1" }}
+        >
           Registrarse
         </Button>
       )}

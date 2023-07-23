@@ -5,7 +5,7 @@ import { theme } from "../../styles/themeProvider";
 
 import "../../styles/Step4.css";
 import { HourButton } from "../Buttons";
-import { useWindowRezise } from "../../hooks/useWindowRezise";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 interface Step4Props {
   reservation: Reservation;
@@ -29,7 +29,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
     onNext();
   };
 
-  const { isMobile } = useWindowRezise();
+  const { isMobile } = useWindowResize();
 
   return (
     <>

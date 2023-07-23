@@ -77,12 +77,7 @@ const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
               </Grid>
             </Grid>
           </Item>
-          <Item>
-            <p>Item extra: {reservation.service.name}</p>
-          </Item>
-          <Item>
-            <p>Item extra2: {reservation.service.name}</p>
-          </Item>
+  
         </Stack>
       </Box>
     </Grid>
