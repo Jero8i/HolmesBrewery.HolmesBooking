@@ -14,11 +14,12 @@ const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
           variant="h2"
           color="primary"
           sx={{
-            fontSize: {
-              xs: "1.7rem",
-              sm: "2.6rem",
-              md: "3.3rem",
-              lg: "3.7rem",
+            textAlign: "center",
+            fontSize: isMobile ? "2.8em" :{
+              xs: "2.2em",
+              sm: "2.8em",
+              md: "3.3em",
+              lg: "3.7em",
             },
           }}
         >
@@ -32,10 +33,10 @@ const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
           sx={{
             mt: "-2%",
             fontSize: {
-              xs: "1.2rem",
-              sm: "1.3rem",
-              md: "1.5rem",
-              lg: "1.8rem",
+              xs: "1.2em",
+              sm: "1.3em",
+              md: "1.5em",
+              lg: "1.8em",
             },
           }}
         >
@@ -43,7 +44,7 @@ const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
         </Typography>
       </Stack>
 
-      <Stack direction={{ sm: "row" }} sx={{ mt: "8%", alignItems: "center", width:'100%'}}>
+      <Stack direction={{ sm: "row" }} sx={{ mt: "8%", p: isMobile ? "0% 10%" : {xs: "0% 5%", sm: "0%"}, alignItems: "center", width:'100%'}}>
         <Button
           variant="contained"
           size={isSmall ? "small" : isMedium ? "medium" : "large"}

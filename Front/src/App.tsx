@@ -17,6 +17,7 @@ function App() {
     reservation,
     handleNext,
     handlePrev,
+    handleChangeStep,
     handleChangeStep1,
     handleChangeStep2,
     handleChangeStep3,
@@ -32,7 +33,7 @@ function App() {
       sx={{
         height: "auto",
         minHeight: "100vh",
-        minWidth: "100vw",
+        width: "100%",
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -46,25 +47,25 @@ function App() {
         elevation={8}
         sx={{
           bgcolor: "primary.light",
-          minHeight: { xs: "50vh", sm: "55vh", md: "60vh", lg: "65vh" },
-          width: { xs: "90vw", sm: "80vw", md: "65vw", lg: "55vw" },
+          minHeight: isMobile ? "65vh" : { xs: "50vh", sm: "55vh", md: "60vh", lg: "68vh" },
+          width: { xs: "90vw", sm: "75vw", md: "65vw", lg: "55vw" },
           height: "auto",
-          mt: activeStep !== -1 ? "2%" : "-1.7%",
+          mt: isMobile ? (activeStep === -1 ? "-55px" : "0px") : activeStep !== -1 ? "40px" : "-15px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Stack>
+        <Stack direction="row">
           {activeStep === -1 ? (
             <img
               src={marca}
               alt="Logo de HOLMES"
               height={
                 isMobile
-                  ? "50px"
+                  ? "80px"
                   : isSmall
-                  ? "70px"
+                  ? "80px"
                   : isMedium
                   ? "100px"
                   : "120px"
@@ -72,13 +73,14 @@ function App() {
               style={{ marginTop: "10%" }}
             />
           ) : (
-            <StepperComponent activeStep={activeStep} />
+            <StepperComponent activeStep={activeStep} handleChangeStep={handleChangeStep} />
           )}
         </Stack>
 
         <Stack
           sx={{
-            width: activeStep !== -1 && activeStep !== 1 ? "100%" : "auto",
+            width: "auto",
+            maxWidth: "100%",
             flexGrow: 1,
             justifyContent: "center",
             alignItems:"center",
@@ -103,7 +105,6 @@ function App() {
         direction="row"
         sx={{
           minWidth: { xs: "90vw", sm: "80vw", md: "65vw", lg: "55vw" },
-          maxWidth: "100%",
           margin: "2% 0%",
           alignItems: "center",
           justifyContent: "flex-start",
