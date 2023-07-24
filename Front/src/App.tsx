@@ -47,7 +47,7 @@ function App() {
         elevation={8}
         sx={{
           bgcolor: "primary.light",
-          minHeight: isMobile ? "65vh" : { xs: "50vh", sm: "55vh", md: "60vh", lg: "68vh" },
+          minHeight: isMobile ? "65vh" : { xs: "50vh", sm: "60vh", md: "71vh"},
           width: { xs: "90vw", sm: "75vw", md: "65vw", lg: "55vw" },
           height: "auto",
           mt: isMobile ? (activeStep === -1 ? "-55px" : "0px") : activeStep !== -1 ? "40px" : "-15px",
@@ -56,7 +56,7 @@ function App() {
           alignItems: "center",
         }}
       >
-        <Stack direction="row">
+        <Stack sx={{justifyContent: 'center'}}>
           {activeStep === -1 ? (
             <img
               src={marca}
@@ -70,7 +70,7 @@ function App() {
                   ? "100px"
                   : "120px"
               }
-              style={{ marginTop: "10%" }}
+              style={{ marginTop: "1%" }}
             />
           ) : (
             <StepperComponent activeStep={activeStep} handleChangeStep={handleChangeStep} />
@@ -79,7 +79,7 @@ function App() {
 
         <Stack
           sx={{
-            width: "auto",
+            width: activeStep===3 ? '100%': "auto",
             maxWidth: "100%",
             flexGrow: 1,
             justifyContent: "center",

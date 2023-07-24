@@ -18,14 +18,17 @@ const CardSlider: React.FC<CardSliderProps> = ({
   reservation,
 }) => {
   const findIndex = (serviceId: string): number => {
-    return reservation.service.name !== ""
-      ? services.findIndex((service) => service.name === serviceId)
-      : 0;
+    const indexFound =
+      reservation.service.name !== ""
+        ? services.findIndex((service) => service.name === serviceId)
+        : 0;
+    return Math.max(indexFound, 0);
   };
 
   const [activeIndex, setActiveIndex] = useState(
     findIndex(reservation.service.name)
   );
+
   const maxSteps = services.length;
 
   const handleNextService = () => {
@@ -58,7 +61,7 @@ const CardSlider: React.FC<CardSliderProps> = ({
         service={services[activeIndex]}
         image={images[activeIndex]}
         handleCardSelection={handleCardSelection}
-      ></ServiceCard>
+      />
 
       <MobileStepper
         steps={maxSteps}

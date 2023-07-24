@@ -8,6 +8,7 @@ import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
 import { fetchAllServices } from "../api";
+import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {
   activeStep: number;
@@ -15,7 +16,7 @@ interface RenderStepContentProps {
   handleNext: () => void;
   handlePrev: () => void;
   handleChangeStep1: (numberDiners: number) => void;
-  handleChangeStep2: (date: string) => void;
+  handleChangeStep2: (date: Dayjs) => void;
   handleChangeStep3: (service: Service) => void;
   handleChangeStep4: (scheduleTime: string) => void;
   handleChangeStep5: (customer: Customer) => void;
@@ -46,7 +47,6 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   }, []);
 
   const getDisabledDays = () => {
-    console.log(allServices);
     const disabledDays = [0, 1, 2, 3, 4, 5, 6];
     const servicesKeys = allServices.flatMap((service) =>
       Object.keys(service.schedule)
@@ -70,13 +70,14 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
     case 1:
       return (
         <Step2
-          date={reservation.time.toISOString().split("T")[0]}
+          reservation={reservation}
           onNext={handleNext}
           onChange={handleChangeStep2}
           disabledDays={getDisabledDays()}
         />
       );
     case 2:
+      console.log("Hora de la reserva en step 3:"+reservation.time);
       return (
         <Step3
           reservation={reservation}

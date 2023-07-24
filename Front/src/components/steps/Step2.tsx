@@ -8,27 +8,30 @@ import "dayjs/locale/es"; // Importa el idioma español de dayjs
 
 import "../../styles/Step2.css";
 import { theme } from "../../styles/themeProvider";
+import { Reservation } from "../../types";
 
 dayjs.locale("es"); // Establece el idioma español en dayjs
 
 interface Step2Props {
-  date: string;
+  reservation: Reservation;
   onNext: () => void;
-  onChange: (aux: string) => void;
+  onChange: (aux: Dayjs) => void;
   disabledDays: number[];
 }
 export const Step2: React.FC<Step2Props> = ({
-  date,
+  reservation,
   onNext,
   onChange,
   disabledDays,
 }) => {
+
+  const date = reservation.time.toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs(date));
 
   const handleInputChange = (newValue: Dayjs | null) => {
     if (newValue != null) {
-      setSelectedDate(newValue);
-      onChange(newValue.format("DD-MM-YYYY"));
+      setSelectedDate(newValue.date(newValue.date()).hour(reservation.time.getHours()).minute(reservation.time.getMinutes()));
+      onChange(newValue.date(newValue.date()).hour(reservation.time.getHours()).minute(reservation.time.getMinutes()));
       onNext();
     }
   };
@@ -39,7 +42,7 @@ export const Step2: React.FC<Step2Props> = ({
 
   return (
     <>
-      <Stack sx={{ mt: "5%", alignItems: "center" }}>
+      <Stack sx={{ mt: "6%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
@@ -47,7 +50,7 @@ export const Step2: React.FC<Step2Props> = ({
             color: theme.palette.info.main,
             fontFamily: "Roboto Slab, serif",
             fontWeight: "bold",
-            fontSize: "140%",
+            fontSize: "135%",
           }}
         >
           Elija una fecha
@@ -56,7 +59,7 @@ export const Step2: React.FC<Step2Props> = ({
 
       <Divider sx={{width:'100%', mt: "2%" }} />
 
-      <Stack sx={{ margin: "5% 0% 10% 0%" }}>
+      <Stack sx={{ margin: "1% 0% 1% 0%" }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateCalendar
             className="calendar"
