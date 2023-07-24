@@ -70,3 +70,12 @@ export const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   flexGrow: 1,
 }));
+
+export const SummaryItem = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: "info",
+  flexGrow: 1,
+}));
