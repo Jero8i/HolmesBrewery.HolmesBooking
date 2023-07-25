@@ -7,7 +7,7 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
-import { fetchAllServices } from "../api";
+import { OfflineDay, fetchAllServices, fetchDaysOffline } from "../api";
 import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {
@@ -35,26 +35,43 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep5,
   handleSubmit,
 }) => {
+
   const [allServices, setAllServices] = useState<Service[]>([]);
+  const [offlineDays, setOfflineDays] = useState<Date[]>([]);
+
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
         const services = await fetchAllServices();
+        services.forEach( (service) => {
+          const [sYear, sMonth, sDay] = service.startDate.toString().split("-");
+          const startDate = new Date(Number(sYear), Number(sMonth)-1, Number(sDay.slice(0,2)));
+          const [eYear, eMonth, eDay] = service.endDate.toString().split("-");
+          const endDate = new Date(Number(eYear), Number(eMonth)-1, Number(eDay.slice(0,2)));
+          service.startDate = startDate;
+          service.endDate = endDate;
+        });
         setAllServices(services);
       } catch (error) {}
     };
     fetchServicesData();
   }, []);
 
-  const getDisabledDays = () => {
-    const disabledDays = [0, 1, 2, 3, 4, 5, 6];
-    const servicesKeys = allServices.flatMap((service) =>
-      Object.keys(service.schedule)
-    );
-    const servicesDays = servicesKeys.map((key) => parseInt(key));
-
-    return disabledDays.filter((day) => !servicesDays.includes(day));
-  };
+  useEffect(() => {
+    const fetchServicesData = async () => {
+      try {
+        const offlineDays = await fetchDaysOffline();
+          offlineDays.forEach( (offlineDay) => {
+          const [year, month, day] = offlineDay.date.toString().split("-");
+          const date = new Date(Number(year), Number(month)-1, Number(day.slice(0,2)));
+          offlineDay.date = date;
+        });
+        setOfflineDays(offlineDays.map(offlineDay => offlineDay.date));
+        console.log()
+      } catch (error) {}
+    };
+    fetchServicesData();
+  }, []);
 
   switch (activeStep) {
     case -1:
@@ -73,7 +90,8 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
           reservation={reservation}
           onNext={handleNext}
           onChange={handleChangeStep2}
-          disabledDays={getDisabledDays()}
+          services={allServices}
+          offlineDays={offlineDays}
         />
       );
     case 2:

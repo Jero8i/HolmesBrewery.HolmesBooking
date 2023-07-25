@@ -8,7 +8,8 @@ import "dayjs/locale/es"; // Importa el idioma español de dayjs
 
 import "../../styles/Step2.css";
 import { theme } from "../../styles/themeProvider";
-import { Reservation } from "../../types";
+import { Reservation, Service } from "../../types";
+import { OfflineDay } from "../../api";
 
 dayjs.locale("es"); // Establece el idioma español en dayjs
 
@@ -16,28 +17,49 @@ interface Step2Props {
   reservation: Reservation;
   onNext: () => void;
   onChange: (aux: Dayjs) => void;
-  disabledDays: number[];
+  services: Service[];
+  offlineDays: Date[];
 }
 export const Step2: React.FC<Step2Props> = ({
   reservation,
   onNext,
   onChange,
-  disabledDays,
+  services,
+  offlineDays,
 }) => {
-
   const date = reservation.time.toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs(date));
 
   const handleInputChange = (newValue: Dayjs | null) => {
     if (newValue != null) {
-      setSelectedDate(newValue.date(newValue.date()).hour(reservation.time.getHours()).minute(reservation.time.getMinutes()));
-      onChange(newValue.date(newValue.date()).hour(reservation.time.getHours()).minute(reservation.time.getMinutes()));
+      setSelectedDate(
+        newValue
+          .date(newValue.date())
+          .hour(reservation.time.getHours())
+          .minute(reservation.time.getMinutes())
+      );
+      onChange(
+        newValue
+          .date(newValue.date())
+          .hour(reservation.time.getHours())
+          .minute(reservation.time.getMinutes())
+      );
       onNext();
     }
   };
 
   const shouldDisableDate = (day: Dayjs) => {
-    return disabledDays.includes(day.day());
+
+      const currentServices = services.filter(
+        (service) =>
+          service.startDate <= day.toDate() && service.endDate >= day.toDate()
+      );
+      const currentServicesKeys = currentServices.flatMap((service) =>
+        Object.keys(service.schedule).map((key) => parseInt(key))
+      );
+
+      return !currentServicesKeys.includes(day.day()) || offlineDays.some(offlineDay => offlineDay.getTime() === day.toDate().getTime());
+    
   };
 
   return (
@@ -57,7 +79,7 @@ export const Step2: React.FC<Step2Props> = ({
         </Typography>
       </Stack>
 
-      <Divider sx={{width:'100%', mt: "2%" }} />
+      <Divider sx={{ width: "100%", mt: "2%" }} />
 
       <Stack sx={{ margin: "1% 0% 1% 0%" }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
