@@ -86,7 +86,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
       return false;
     }
 
-    if (!customer.phonenumber.trim()) {
+    if (!customer.phonenumber) {
       setPhoneNumberError("El número de teléfono no puede estar vacío.");
       return false;
     } else if (!isValidPhoneNumber(customer.phonenumber)) {
@@ -280,7 +280,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
         variant="contained"
         onClick={handleRegister}
         sx={{
-          mt: isMobile ? "5%" : isSmall ? "1%" : "2%",
+          mt: isMobile ? "5%" : "2%",
           textTransform: "none",
           width: isMobile
             ? "80%"
