@@ -56,6 +56,8 @@ export interface Service {
   maxPeople: number;
   schedule: Schedule;
   description: string;
+  shortDescription: string;
+  imageUrl: string;
 }
 
 export interface Schedule {

@@ -7,7 +7,7 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
-import { OfflineDay, fetchAllServices, fetchDaysOffline } from "../api";
+import { fetchAllServices, fetchDaysOffline } from "../api";
 import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {

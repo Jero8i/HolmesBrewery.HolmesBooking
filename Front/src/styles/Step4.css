@@ -7,8 +7,7 @@
 }
 
 .scroll::-webkit-scrollbar {
-  height: 8px; 
-  
+  height: 9px; 
 }
 
 .scroll::-webkit-scrollbar-track:disabled {
@@ -18,7 +17,7 @@
 .scroll::-webkit-scrollbar-track {
   background-color: var(--color-secondary);
   border-radius: 5px;
-  margin: 0px 5px;
+  margin: 0px 20px;
 }
 
 .scroll::-webkit-scrollbar-thumb {

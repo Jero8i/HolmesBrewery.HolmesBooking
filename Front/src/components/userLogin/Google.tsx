@@ -70,9 +70,11 @@ const Google: React.FC<GoogleProps> = ({ customer, onNext, onChange }) => {
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
             variant="contained"
+            startIcon={<GoogleIcon />}
+            sx={{minWidth:"50%", textTransform:"none"}}
           >
+            Iniciar sesión con Google
             {/*<img src={GoogleLogo} alt="Google Logo" style={{ width: "32px", height: "32px" }}/>*/}
-            <GoogleIcon />
           </Button>
         )}
       />

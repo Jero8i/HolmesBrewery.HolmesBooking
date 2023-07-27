@@ -80,21 +80,17 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ onNext, reservation }) => {
         setInvalidData(true);
       }
     } else {
-      setInvalidData(true);
+      setInvalidData(false);
     }
   };
 
   return (
     <>
-      <Stack sx={{ mt: isMobile ? "5%" : "3%", alignItems: "center" }}>
+      <Stack sx={{ mt: isMobile ? "5%" : "0%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Iniciar Sesión
@@ -109,7 +105,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ onNext, reservation }) => {
           margin: "2% 5% 0% 5%",
           width: isMobile
             ? "80%"
-            : { xs: "70%", sm: "60%", md: "60%", lg: "50%" },
+            : { xs: "85%", sm: "80%", md: "60%", lg: "50%" },
           justifyContent: "center",
         }}
       >
@@ -167,7 +163,7 @@ const EmailLogin: React.FC<EmailLoginProps> = ({ onNext, reservation }) => {
           </Stack>
         )}
 
-        <Button variant="contained" color="primary" onClick={handleLogin}>
+        <Button fullWidth variant="contained" color="primary" onClick={handleLogin} sx={{textTransform:"none"}}>
           Iniciar Sesión
         </Button>
       </Stack>

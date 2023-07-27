@@ -26,7 +26,6 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
   );
 
   const handleButtonClick = (time: string) => {
-    console.log("Hora de la reserva en step4:"+reservation.time);
     setSelectedTime(time);
     onChange(time);
     onNext();
@@ -40,11 +39,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: "140%",
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Elija un horario

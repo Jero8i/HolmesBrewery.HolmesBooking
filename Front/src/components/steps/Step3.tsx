@@ -36,29 +36,25 @@ export const Step3: React.FC<Step3Props> = ({
   }, []);
 
   return (
-    <>
-      <Stack sx={{ mt: "5%", alignItems: "center" }}>
+    <Stack width="100%" sx={{alignItems:"center"}}>
+      <Stack sx={{ mt: "2%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: "140%",
+            fontSize: {xs: '1em', sm: "1.2em", md: "1.3em"}
           }}
         >
-          Seleccione un Servicio
+          Elija un servicio
         </Typography>
       </Stack>
-      <Divider sx={{width:'80%', mt: "2%" }} />
+      <Divider sx={{width:'80%', mt: "1%" }} />
       <Stack
-        sx={{ margin: "5% 0% 5% 0%", width: "100%", justifyContent: "center" }}
+        sx={{ margin: "2% 0% 2% 0%", width: "90%", justifyContent: "center" }}
       >
         {!isLoading && (
           <CardSlider services={services} onChange={onChange} onNext={onNext} reservation={reservation}/>
         )}
       </Stack>
-    </>
+    </Stack>
   );
 };

@@ -25,14 +25,16 @@ const LoginOptions: React.FC<LoginOptionsProps> = ({
 
   return (
     <Stack
-      direction="row"
+      direction={ isMobile ? "column" : "row"}
       spacing={1}
       sx={{
-        mt: isMobile ? "3%" : "1%",
-        mb: isMobile ? "10%" : "8%",
-        width: isMobile
-          ? "80%"
-          : { xs: "70%", sm: "60%", md: "60%", lg: "50%" },
+        mt: 1,
+        mb: 3,
+        width: 
+          isMobile ? "80%" :
+          activeOption === 1
+              ? { xs: "70%", sm: "90%", md: "70%", lg: "80%" }
+              : { xs: "85%", sm: "80%", md: "60%", lg: "50%" },
       }}
     >
       <Google customer={customer} onNext={onNext} onChange={onChange}/>
@@ -40,15 +42,15 @@ const LoginOptions: React.FC<LoginOptionsProps> = ({
         <Button
           variant="contained"
           onClick={() => setActiveOption(0)}
-          sx={{ flexGrow: "1" }}
+          sx={{ flexGrow: "1", textTransform:"none" }}
         >
-          Iniciar Sesión
+          Iniciar sesión con Email
         </Button>
       ) : (
         <Button
           variant="contained"
           onClick={() => setActiveOption(1)}
-          sx={{ flexGrow: "1" }}
+          sx={{ flexGrow: "1", textTransform:"none" }}
         >
           Registrarse
         </Button>
@@ -76,7 +78,7 @@ const Step5: React.FC<Step5Props> = ({
   switch (activeOption) {
     case 0:
       return (
-        <>
+        <Stack width="100%" sx={{alignItems:"center"}}>
           <EmailLogin onNext={onNext} reservation={reservation} />
           <LoginOptions
             customer={customer}
@@ -85,12 +87,12 @@ const Step5: React.FC<Step5Props> = ({
             activeOption={activeOption}
             setActiveOption={setActiveOption}
           />
-        </>
+        </Stack>
       );
 
     case 1:
       return (
-        <>
+        <Stack width="100%" sx={{alignItems:"center"}}>
           <EmailRegister
             onNext={onNext}
             customer={customer}
@@ -103,7 +105,7 @@ const Step5: React.FC<Step5Props> = ({
             activeOption={activeOption}
             setActiveOption={setActiveOption}
           />
-        </>
+        </Stack>
       );
 
     default:

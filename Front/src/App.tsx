@@ -47,8 +47,8 @@ function App() {
         elevation={8}
         sx={{
           bgcolor: "primary.light",
-          minHeight: isMobile ? "65vh" : { xs: "50vh", sm: "60vh", md: "71vh"},
-          width: { xs: "90vw", sm: "75vw", md: "65vw", lg: "55vw" },
+          minHeight: isMobile ? "65vh" : { xs: "66vh", sm: "75vh", md: "75vh"},
+          width: { xs: "90vw", sm: "80vw", md: "75vw", lg: "60vw" },
           height: "auto",
           mt: isMobile ? (activeStep === -1 ? "-55px" : "0px") : activeStep !== -1 ? "40px" : "-15px",
           display: "flex",
@@ -79,7 +79,7 @@ function App() {
 
         <Stack
           sx={{
-            width: activeStep===3 ? '100%': "auto",
+            width: activeStep===2 || activeStep===3 || activeStep===4 ? '100%': "auto",
             maxWidth: "100%",
             flexGrow: 1,
             justifyContent: "center",
@@ -104,7 +104,7 @@ function App() {
       <Stack
         direction="row"
         sx={{
-          minWidth: { xs: "90vw", sm: "80vw", md: "65vw", lg: "55vw" },
+          minWidth: { xs: "90vw", sm: "80vw", md: "75vw", lg: "60vw" },
           margin: "2% 0%",
           alignItems: "center",
           justifyContent: "flex-start",

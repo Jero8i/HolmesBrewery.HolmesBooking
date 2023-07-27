@@ -62,15 +62,11 @@ export const Step1: React.FC<Step1Props> = ({
 
   return (
     <>
-      <Stack sx={{ mt: "-8%", alignItems: "center" }}>
+      <Stack sx={{ mt: "-10%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Elija una cantidad de personas
@@ -131,12 +127,14 @@ export const Step1: React.FC<Step1Props> = ({
               : { sm: "7%", md: "8%", lg: "9%" },
             pr: "5%",
             pl: "5%",
+            alignItems:"center",
           }}
         >
           <TextField
             fullWidth
             type="number"
             error={isNegative ? true : false}
+            size= {isSmall ? "small" : "medium"}
             helperText={
               isNegative ? "El número no puede ser negativo ni cero." : ""
             }
@@ -158,7 +156,7 @@ export const Step1: React.FC<Step1Props> = ({
             onClick={handleNext}
             sx={{
               fontSize: "80%",
-              height: "55px",
+              height: isSmall ? "40px" : "55px",
               p: "0% 8%",
               color: "#FFFFFF",
               bgcolor: theme.palette.primary.main,

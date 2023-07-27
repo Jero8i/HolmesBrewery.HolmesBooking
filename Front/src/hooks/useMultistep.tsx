@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Customer, Reservation, Service } from "../types";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
 export function useMultistep() {
   const [activeStep, setActiveStep] = useState(-1);
@@ -24,6 +24,8 @@ export function useMultistep() {
       maxPeople: 0,
       schedule: {},
       description: "",
+      shortDescription: "",
+      imageUrl: "",
     },
     time: new Date(),
     state: 0,

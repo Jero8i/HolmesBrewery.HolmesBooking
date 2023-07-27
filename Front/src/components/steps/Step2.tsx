@@ -9,7 +9,6 @@ import "dayjs/locale/es"; // Importa el idioma español de dayjs
 import "../../styles/Step2.css";
 import { theme } from "../../styles/themeProvider";
 import { Reservation, Service } from "../../types";
-import { OfflineDay } from "../../api";
 
 dayjs.locale("es"); // Establece el idioma español en dayjs
 
@@ -54,6 +53,7 @@ export const Step2: React.FC<Step2Props> = ({
         (service) =>
           service.startDate <= day.toDate() && service.endDate >= day.toDate()
       );
+      
       const currentServicesKeys = currentServices.flatMap((service) =>
         Object.keys(service.schedule).map((key) => parseInt(key))
       );
@@ -64,15 +64,11 @@ export const Step2: React.FC<Step2Props> = ({
 
   return (
     <>
-      <Stack sx={{ mt: "6%", alignItems: "center" }}>
+      <Stack sx={{ mt: {xs: "5%", sm: "1%", md: "0%"}, alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: "135%",
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Elija una fecha

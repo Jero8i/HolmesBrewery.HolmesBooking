@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  Grid,
   InputAdornment,
   Stack,
   TextField,
@@ -37,7 +38,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
 
   const [invalidData, setInvalidData] = useState(false);
 
-  const { isMobile } = useWindowResize();
+  const { isMedium, isSmall, isMobile } = useWindowResize();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -56,7 +57,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
         setInvalidData(true);
       }
     } else {
-      setInvalidData(true);
+      setInvalidData(false);
     }
   };
 
@@ -119,131 +120,145 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
 
   return (
     <>
-      <Stack sx={{ mt: "5%", alignItems: "center" }}>
+      <Stack sx={{ mt: isMobile ? "5%" : isSmall ? "1%" : isMedium ? "0%" : "0%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+            fontSize: { xs: "1.1em", sm: "1.4em", md: "1.5em" },
           }}
         >
           Registrarse
         </Typography>
       </Stack>
 
-      <Divider sx={{ width: "80%", mt: "2%" }} />
+      <Divider sx={{ width: "80%", mt: "1%" }} />
 
-      <Stack
+      <Grid
+        container
         spacing={2}
         sx={{
-          margin: "5% 5% 0% 5%",
+          mt: "2%",
           width: isMobile
             ? "80%"
-            : { xs: "70%", sm: "60%", md: "60%", lg: "50%" },
+            : { xs: "70%", sm: "90%", md: "70%", lg: "80%" },
           justifyContent: "center",
         }}
       >
-        <TextField
-          type="text"
-          label="Nombre"
-          name="name"
-          required
-          value={customer.name}
-          onChange={handleInputChange}
-          error={!!nameError}
-          helperText={nameError}
-          color="info"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountCircleIcon color="info" />
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <TextField
-          type="text"
-          label="Apellido"
-          name="lastname"
-          required
-          value={customer.lastname}
-          onChange={handleInputChange}
-          error={!!lastNameError}
-          helperText={lastNameError}
-          color="info"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountCircleIcon color="info" />
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <TextField
-          type="email"
-          label="Email"
-          name="email"
-          required
-          value={customer.email}
-          onChange={handleInputChange}
-          error={!!emailError}
-          helperText={emailError}
-          color="info"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon color="info" />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          type="number"
-          label="Teléfono"
-          name="phonenumber"
-          required
-          value={customer.phonenumber}
-          onChange={handleInputChange}
-          error={!!phoneNumberError}
-          helperText={phoneNumberError}
-          color="info"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <LocalPhoneIcon color="info" />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          type="password"
-          label="Contraseña"
-          name="password"
-          required
-          value={customer.password}
-          onChange={handleInputChange}
-          error={!!passwordError}
-          helperText={passwordError}
-          color="info"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <HttpsIcon color="info" />
-              </InputAdornment>
-            ),
-          }}
-        ></TextField>
-
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type="text"
+            label="Nombre"
+            name="name"
+            required
+            value={customer.name}
+            onChange={handleInputChange}
+            error={!!nameError}
+            helperText={nameError}
+            color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleIcon color="info" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type="text"
+            label="Apellido"
+            name="lastname"
+            required
+            value={customer.lastname}
+            onChange={handleInputChange}
+            error={!!lastNameError}
+            helperText={lastNameError}
+            color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleIcon color="info" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            type="email"
+            label="Email"
+            name="email"
+            required
+            value={customer.email}
+            onChange={handleInputChange}
+            error={!!emailError}
+            helperText={emailError}
+            color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon color="info" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type="number"
+            label="Teléfono"
+            name="phonenumber"
+            required
+            value={customer.phonenumber}
+            onChange={handleInputChange}
+            error={!!phoneNumberError}
+            helperText={phoneNumberError}
+            color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LocalPhoneIcon color="info" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type="password"
+            label="Contraseña"
+            name="password"
+            required
+            value={customer.password}
+            onChange={handleInputChange}
+            error={!!passwordError}
+            helperText={passwordError}
+            color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <HttpsIcon color="info" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
         {invalidData && (
           <Stack
             direction="row"
             spacing={1}
-            sx={{ justifyContent: "center", textAlign: "center" }}
+            sx={{
+              mt: "1%",
+              mb: "-1%",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
           >
             <ErrorIcon
               fontSize="small"
@@ -259,11 +274,21 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
             </Typography>
           </Stack>
         )}
-
-        <Button variant="contained" color="primary" onClick={handleRegister}>
-          Confirmar
-        </Button>
-      </Stack>
+      </Grid>
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={handleRegister}
+        sx={{
+          mt: isMobile ? "5%" : isSmall ? "1%" : "2%",
+          textTransform: "none",
+          width: isMobile
+            ? "80%"
+            : { xs: "70%", sm: "90%", md: "70%", lg: "80%" },
+        }}
+      >
+        Confirmar
+      </Button>
     </>
   );
 };

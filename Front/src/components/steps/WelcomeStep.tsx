@@ -28,10 +28,9 @@ const WelcomeStep = ({ onNext }: { onNext: () => void }) => {
 
         <Typography
           variant="h5"
-          color="info"
-          style={{ fontFamily: "Roboto Slab, serif" }}
           sx={{
             mt: "-2%",
+            fontWeight: '600',
             fontSize: {
               xs: "1.2em",
               sm: "1.3em",

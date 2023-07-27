@@ -113,8 +113,8 @@ export const NumberButton: React.FC<{
       onClick={() => handleButtonClick(value)}
       color="info"
       sx={{
-        width: { xs: "3.7em", md: "4em" },
-        height: { xs: "3.7em", md: "4em" },
+        width: { xs: "3.7em", sm: "4.3em", lg:"4.5em" },
+        height: { xs: "3.7em", sm: "4.3em", lg:"4.5em" },
         fontSize: { xs: "100%", sm: "110%", md: "130%" },
         backgroundColor:
           value === selectedValue.toString()
