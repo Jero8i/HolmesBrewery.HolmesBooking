@@ -16,20 +16,9 @@ export async function fetchDaysOffline(): Promise<OfflineDay[]> {
   }
 }
 
-export async function fetchAllServices(): Promise<Service[]> {
+export async function fetchActiveServices(): Promise<Service[]> {
   try {
     const response = await fetch(`https://holmesbooking.com/all-active-services`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error al obtener los servicios:', error);
-    throw error;
-  }
-}
-
-export async function fetchServices(date: string): Promise<Service[]> {
-  try {
-    const response = await fetch(`https://holmesbooking.com/available-services/${encodeURIComponent(date)}`);
     const data = await response.json();
     return data;
   } catch (error) {

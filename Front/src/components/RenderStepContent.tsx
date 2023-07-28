@@ -7,7 +7,7 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
-import { fetchAllServices, fetchDaysOffline } from "../api";
+import { fetchActiveServices, fetchDaysOffline } from "../api";
 import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {
@@ -35,23 +35,30 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep5,
   handleSubmit,
 }) => {
-
-  const [allServices, setAllServices] = useState<Service[]>([]);
+  const [activeServices, setActiveServices] = useState<Service[]>([]);
   const [offlineDays, setOfflineDays] = useState<Date[]>([]);
 
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
-        const services = await fetchAllServices();
-        services.forEach( (service) => {
+        const services = await fetchActiveServices();
+        services.forEach((service) => {
           const [sYear, sMonth, sDay] = service.startDate.toString().split("-");
-          const startDate = new Date(Number(sYear), Number(sMonth)-1, Number(sDay.slice(0,2)));
+          const startDate = new Date(
+            Number(sYear),
+            Number(sMonth) - 1,
+            Number(sDay.slice(0, 2))
+          );
           const [eYear, eMonth, eDay] = service.endDate.toString().split("-");
-          const endDate = new Date(Number(eYear), Number(eMonth)-1, Number(eDay.slice(0,2)));
+          const endDate = new Date(
+            Number(eYear),
+            Number(eMonth) - 1,
+            Number(eDay.slice(0, 2))
+          );
           service.startDate = startDate;
           service.endDate = endDate;
         });
-        setAllServices(services);
+        setActiveServices(services);
       } catch (error) {}
     };
     fetchServicesData();
@@ -61,17 +68,25 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
     const fetchServicesData = async () => {
       try {
         const offlineDays = await fetchDaysOffline();
-          offlineDays.forEach( (offlineDay) => {
+        offlineDays.forEach((offlineDay) => {
           const [year, month, day] = offlineDay.date.toString().split("-");
-          const date = new Date(Number(year), Number(month)-1, Number(day.slice(0,2)));
+          const date = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day.slice(0, 2))
+          );
           offlineDay.date = date;
         });
-        setOfflineDays(offlineDays.map(offlineDay => offlineDay.date));
-        console.log()
+        setOfflineDays(offlineDays.map((offlineDay) => offlineDay.date));
+        console.log();
       } catch (error) {}
     };
     fetchServicesData();
   }, []);
+
+  const filteredServicesByDate = (date: Date): Service[] => {
+    return activeServices.filter((service) => Object.keys(service.schedule).includes(date.getDay().toString()));
+  };
 
   switch (activeStep) {
     case -1:
@@ -90,15 +105,16 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
           reservation={reservation}
           onNext={handleNext}
           onChange={handleChangeStep2}
-          services={allServices}
+          services={activeServices}
           offlineDays={offlineDays}
         />
       );
     case 2:
-      console.log("Hora de la reserva en step 3:"+reservation.time);
+      console.log("Hora de la reserva en step 3:" + reservation.time);
       return (
         <Step3
           reservation={reservation}
+          services={filteredServicesByDate(reservation.time)}
           onNext={handleNext}
           onChange={handleChangeStep3}
         />
@@ -122,12 +138,7 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
         />
       );
     case 5:
-      return (
-        <Step6
-          reservation={reservation}
-          onSubmit={handleSubmit}
-        />
-      );
+      return <Step6 reservation={reservation} onSubmit={handleSubmit} />;
     default:
       return null;
   }
