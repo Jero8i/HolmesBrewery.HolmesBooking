@@ -9,21 +9,23 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface Step6Props {
   reservation: Reservation;
-  onPrev: () => void;
   onSubmit: () => void;
 }
 
-const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
+const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
   const { isMobile } = useWindowResize();
   const [submitError, setSubmitError] = useState(false);
+  const [reservationMade, setReservationMade] = useState(false);
 
   const handleSubmit = async () => {
     try {
       await createReservation(reservation);
       onSubmit();
       setSubmitError(false);
+      setReservationMade(true);
     } catch (error) {
       setSubmitError(true);
+      setReservationMade(false);
     }
   };
 
@@ -96,7 +98,7 @@ const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
               Ocurrió un error.
             </Typography>
           </>
-        ) : (
+        ) : reservationMade ? (
           <>
             <CheckCircleIcon
               fontSize="small"
@@ -111,6 +113,8 @@ const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
               Reserva realizada con éxito.
             </Typography>
           </>
+        ) : (
+          <></>
         )}
       </Stack>
     </>

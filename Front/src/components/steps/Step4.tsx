@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Divider, Stack, Typography } from "@mui/material";
 import { Reservation } from "../../types";
-import { theme } from "../../styles/themeProvider";
-
 import "../../styles/Step4.css";
 import { HourButton } from "../Buttons";
 import { useWindowResize } from "../../hooks/useWindowResize";

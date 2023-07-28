@@ -125,7 +125,6 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
       return (
         <Step6
           reservation={reservation}
-          onPrev={handlePrev}
           onSubmit={handleSubmit}
         />
       );

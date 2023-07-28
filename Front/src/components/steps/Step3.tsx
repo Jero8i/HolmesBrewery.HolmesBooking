@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Stack, Divider, Typography } from "@mui/material";
 import { Reservation, Service } from "../../types";
 import { fetchServices } from "../../api";
-import { theme } from "../../styles/themeProvider";
 import CardSlider from "../slider/CardSlider";
 
 interface Step3Props {
