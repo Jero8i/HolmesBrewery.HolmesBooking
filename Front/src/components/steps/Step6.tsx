@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Reservation, SummaryItem } from "../../types";
-import { Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { createReservation } from "../../api";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { theme } from "../../styles/themeProvider";
@@ -16,9 +23,11 @@ const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
   const { isMobile } = useWindowResize();
   const [submitError, setSubmitError] = useState(false);
   const [reservationMade, setReservationMade] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       await createReservation(reservation);
       onSubmit();
       setSubmitError(false);
@@ -26,6 +35,8 @@ const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
     } catch (error) {
       setSubmitError(true);
       setReservationMade(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,21 +78,11 @@ const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
         <Grid item xs={11}>
           <SummaryItem>Servicio: {reservation.service.name}</SummaryItem>
         </Grid>
-        <Grid
-          item
-          sx={{
-            mt: "3%",
-          }}
-        >
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Enviar Reserva
-          </Button>
-        </Grid>
       </Grid>
       <Stack
         direction="row"
         spacing={1}
-        sx={{ justifyContent: "center", textAlign: "center", margin: "5%" }}
+        sx={{width:"92%", justifyContent: "center", textAlign: "center", margin: "5%" }}
       >
         {submitError ? (
           <>
@@ -113,8 +114,12 @@ const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
               Reserva realizada con éxito.
             </Typography>
           </>
+        ) : loading ? (
+          <CircularProgress color="primary" thickness={6}/>
         ) : (
-          <></>
+          <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
+            Enviar Reserva
+          </Button>
         )}
       </Stack>
     </>
