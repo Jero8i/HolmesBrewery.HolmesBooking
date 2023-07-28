@@ -1,91 +1,123 @@
-import React from "react";
-import { Item, Reservation } from "../../types";
-import { Box, Button, Grid, Stack } from "@mui/material";
+import React, { useState } from "react";
+import { Reservation, SummaryItem } from "../../types";
+import { Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import { createReservation } from "../../api";
+import { useWindowResize } from "../../hooks/useWindowResize";
+import { theme } from "../../styles/themeProvider";
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 interface Step6Props {
   reservation: Reservation;
-  onPrev: () => void;
   onSubmit: () => void;
 }
 
-const Step6: React.FC<Step6Props> = ({ reservation, onPrev, onSubmit }) => {
-  console.log(reservation);
+const Step6: React.FC<Step6Props> = ({ reservation, onSubmit }) => {
+  const { isMobile } = useWindowResize();
+  const [submitError, setSubmitError] = useState(false);
+  const [reservationMade, setReservationMade] = useState(false);
 
   const handleSubmit = async () => {
     try {
       await createReservation(reservation);
       onSubmit();
+      setSubmitError(false);
+      setReservationMade(true);
     } catch (error) {
-      //error handling
+      setSubmitError(true);
+      setReservationMade(false);
     }
   };
 
   return (
-    <Grid
-      container
-      height="100%"
-      justifyContent="center"
-      alignItems="center"
-      style={{ height: "10vh" }}
-    >
-      <Box sx={{ width: 300 }} height="100%">
-        <Stack
-          height="100%"
-          spacing={{ xs: 1, sm: 1 }}
-          direction="row"
-          useFlexGap
-          flexWrap="wrap"
+    <>
+      <Stack sx={{ mt: isMobile ? "5%" : "3%", alignItems: "center" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            justifyContent: "center",
+            color: theme.palette.info.main,
+            fontFamily: "Roboto Slab, serif",
+            fontWeight: "bold",
+            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+          }}
         >
-          <Item>
-            <h2>Resumen de reserva</h2>
-          </Item>
-          <Item>
-            <p>Cantidad de personas: {reservation.numberDiners}</p>
-          </Item>
-          <Item>
-            <p>Fecha: {reservation.time.toLocaleDateString()}</p>
-          </Item>
-          <Item>
-            <p>Horario: {reservation.time.toLocaleTimeString()}</p>
-          </Item>
-          <Item>
-            <p>Servicio: {reservation.service.name}</p>
-          </Item>
-          <Item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: "10vh" }}
-              spacing={2}
+          Resumen de la Reserva
+        </Typography>
+      </Stack>
+
+      <Divider sx={{ width: "80%", mt: "2%", mb: isMobile ? "5%" : "2%" }} />
+
+      <Grid container spacing={1} justifyContent="center">
+        <Grid item xs={11}>
+          <SummaryItem>
+            Cantidad de Personas: {reservation.numberDiners}
+          </SummaryItem>
+        </Grid>
+        <Grid item xs={5.5}>
+          <SummaryItem>
+            Fecha: {reservation.time.toLocaleDateString()}
+          </SummaryItem>
+        </Grid>
+        <Grid item xs={5.5}>
+          <SummaryItem>
+            Horario: {reservation.time.toLocaleTimeString()}
+          </SummaryItem>
+        </Grid>
+        <Grid item xs={11}>
+          <SummaryItem>Servicio: {reservation.service.name}</SummaryItem>
+        </Grid>
+        <Grid
+          item
+          sx={{
+            mt: "3%",
+          }}
+        >
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Enviar Reserva
+          </Button>
+        </Grid>
+      </Grid>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ justifyContent: "center", textAlign: "center", margin: "5%" }}
+      >
+        {submitError ? (
+          <>
+            <ErrorIcon
+              fontSize="small"
+              sx={{ color: theme.palette.error.main }}
+            />
+            <Typography
+              sx={{
+                color: theme.palette.error.main,
+                fontWeight: "bold",
+              }}
             >
-              <Grid item>
-                <Button variant="contained" color="primary" onClick={onPrev}>
-                  Anterior
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmit}
-                >
-                  Enviar Reserva
-                </Button>
-              </Grid>
-            </Grid>
-          </Item>
-          <Item>
-            <p>Item extra: {reservation.service.name}</p>
-          </Item>
-          <Item>
-            <p>Item extra2: {reservation.service.name}</p>
-          </Item>
-        </Stack>
-      </Box>
-    </Grid>
+              Ocurrió un error.
+            </Typography>
+          </>
+        ) : reservationMade ? (
+          <>
+            <CheckCircleIcon
+              fontSize="small"
+              sx={{ color: theme.palette.success.main }}
+            />
+            <Typography
+              sx={{
+                color: theme.palette.success.main,
+                fontWeight: "bold",
+              }}
+            >
+              Reserva realizada con éxito.
+            </Typography>
+          </>
+        ) : (
+          <></>
+        )}
+      </Stack>
+    </>
   );
 };
 

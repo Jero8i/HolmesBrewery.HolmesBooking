@@ -1,4 +1,4 @@
-import { Stepper, Step, StepLabel } from "@mui/material";
+import { Stack } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import SportsBarIcon from "@mui/icons-material/SportsBar";
@@ -7,12 +7,27 @@ import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 import LoginIcon from "@mui/icons-material/Login";
 
 import "../styles/Stepper.css";
-import { useWindowRezise } from "../hooks/useWindowRezise";
+import { useWindowResize } from "../hooks/useWindowResize";
+import { StepperButton } from "./Buttons";
 
-export const StepperComponent = ({ activeStep }: { activeStep: number }) => {
-  const { isMedium, isMobile } = useWindowRezise();
+interface StepperComponentProps {
+  activeStep: number;
+  handleChangeStep: (step: number) => void;
+}
+
+export const StepperComponent: React.FC<StepperComponentProps> = ({activeStep, handleChangeStep}) => {
+  const { isMedium, isMobile } = useWindowResize();
 
   return (
+    <Stack direction="row" spacing={1} sx={{mt:'5%'}}>
+      <StepperButton value={0} label="Personas" icon={<AccountCircleIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+      <StepperButton value={1} label="Fecha" icon={<EventRoundedIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+      <StepperButton value={2} label="Servicio" icon={<SportsBarIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+      <StepperButton value={3} label="Hora" icon={<WatchLaterIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+      <StepperButton value={4} label="Login" icon={<LoginIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+      <StepperButton value={5} label="Resumen" icon={<FactCheckRoundedIcon />} handleChangeStep={handleChangeStep} activeStep={activeStep}/>
+    </Stack>
+    /*
     <>
       {isMobile ? (
         <Stepper
@@ -83,6 +98,7 @@ export const StepperComponent = ({ activeStep }: { activeStep: number }) => {
         </Stepper>
       )}
     </>
+    */
   );
 };
 

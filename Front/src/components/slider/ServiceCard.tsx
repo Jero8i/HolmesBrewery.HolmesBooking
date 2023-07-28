@@ -28,10 +28,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export const ServiceCard: React.FC<{
+  selectedService: Service;
   service: Service;
-  image: string;
   handleCardSelection: (value: string) => void;
-}> = ({ service, image, handleCardSelection }) => {
+}> = ({ selectedService, service, handleCardSelection }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -39,23 +39,34 @@ export const ServiceCard: React.FC<{
   };
 
   return (
-    <Card sx={{ margin: "0% 10% 10% 10%" }} className="card">
+    <Card
+      sx={{
+        width: expanded ? {xs:"85%", md: "85%", lg:"80%"} : {xs:"85%", md:"75%", lg:"65%"},
+        border: selectedService.name === service.name ? "solid 4px #432818" : "",
+      }}
+      className="card"
+    >
       <CardMedia
         component="img"
-        image={image}
+        image={
+          service.imageUrl !== null
+            ? service.imageUrl
+            : "https://images.squarespace-cdn.com/content/v1/5907bfac46c3c49694ae8d0e/1597359215844-XI39XM101P6D0QI4CW17/C9325D06-F2FB-49B6-AE88-8C58BDDDB987.jpeg?format=2500w"
+        }
         alt="Descriptive Image"
         sx={{
-          height: { xs: 150, sm: 250, md: 250, lg: 300, xl: 300 },
+          height: { xs: 100, sm: 130, md: 130, lg: 125, xl: 125 },
+          objectPosition: "center",
         }}
       />
-      <CardContent>
+      <CardContent sx={{ mb: "-5%" }}>
         <Typography
           sx={{
             fontSize: {
-              xs: "120%",
-              sm: "130%",
-              md: "140%",
-              lg: "150%",
+              xs: "100%",
+              sm: "110%",
+              md: "120%",
+              lg: "130%",
             },
           }}
         >
@@ -64,18 +75,10 @@ export const ServiceCard: React.FC<{
         <Typography
           variant="body2"
           color="text.secondary"
-          style={{ fontFamily: "Roboto Slab, serif" }}
+          sx={{ fontFamily: "Roboto Slab, serif", mt: "-2%" }}
         >
-          Descripción Resumida.
+          {reactHtmlParser(service.shortDescription)}
         </Typography>
-        <Link
-          href="https://menu.fu.do/holmessrl"
-          underline="hover"
-          target="-blank"
-          rel="noopener"
-        >
-          Ver carta online
-        </Link>
       </CardContent>
       <CardActions disableSpacing>
         <Button
@@ -95,10 +98,18 @@ export const ServiceCard: React.FC<{
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Descripción</Typography>
           <Typography paragraph style={{ fontFamily: "Roboto Slab, serif" }}>
             {reactHtmlParser(service.description)}
           </Typography>
+          <Link
+            href="https://menu.fu.do/holmessrl"
+            underline="hover"
+            target="-blank"
+            rel="noopener"
+            sx={{ mt: "-2%" }}
+          >
+            Ver carta online
+          </Link>
         </CardContent>
       </Collapse>
     </Card>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Customer, Reservation, Service } from "../types";
+import { Dayjs } from "dayjs";
 
 export function useMultistep() {
   const [activeStep, setActiveStep] = useState(-1);
@@ -23,6 +24,8 @@ export function useMultistep() {
       maxPeople: 0,
       schedule: {},
       description: "",
+      shortDescription: "",
+      imageUrl: "",
     },
     time: new Date(),
     state: 0,
@@ -38,13 +41,19 @@ export function useMultistep() {
     setActiveStep(activeStep - 1);
   };
 
+  const handleChangeStep = (step: number) => {
+    step < activeStep && setActiveStep(step);
+  }
+
   const handleChangeStep1 = (numberDiners: number) => {
     setReservation({ ...reservation, numberDiners });
   };
 
-  const handleChangeStep2 = (date: string) => {
-    const [day, month, year] = date.split("-");
+  const handleChangeStep2 = (date: Dayjs) => {
+    const [day, month, year] = date.format("DD-MM-YYYY").split("-");
     const time = new Date(Number(year), Number(month) - 1, Number(day));
+    time.setHours(date.hour());
+    time.setMinutes(date.minute());
     setReservation({ ...reservation, time });
   };
 
@@ -60,8 +69,6 @@ export function useMultistep() {
     if (!isNaN(hours) && !isNaN(minutes)) {
       const time = reservation.time;
       time.setHours(hours, minutes);
-      console.log(`Time in handleChangeStep4: ${time}`);
-      console.log(`JSON Time in handleChangeStep4: ${JSON.stringify(time)}`);
       setReservation({ ...reservation, time });
     }
   };
@@ -79,6 +86,7 @@ export function useMultistep() {
     reservation,
     handleNext,
     handlePrev,
+    handleChangeStep,
     handleChangeStep1,
     handleChangeStep2,
     handleChangeStep3,

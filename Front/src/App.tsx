@@ -1,7 +1,7 @@
 import React from "react";
 import { useMultistep } from "./hooks/useMultistep";
-import { useWindowRezise } from "./hooks/useWindowRezise";
-import { useLogin } from "./hooks/useLogin";
+import { useWindowResize } from "./hooks/useWindowResize";
+
 
 import { RenderStepContent } from "./components/RenderStepContent";
 import { Box, Paper, Stack } from "@mui/material";
@@ -17,6 +17,7 @@ function App() {
     reservation,
     handleNext,
     handlePrev,
+    handleChangeStep,
     handleChangeStep1,
     handleChangeStep2,
     handleChangeStep3,
@@ -25,16 +26,14 @@ function App() {
     handleSubmit,
   } = useMultistep();
 
-  const { activeOption, chooseOption, goBack } = useLogin();
-
-  const { isMedium, isSmall, isMobile } = useWindowRezise();
+  const { isMedium, isSmall, isMobile } = useWindowResize();
 
   return (
     <Box
       sx={{
         height: "auto",
         minHeight: "100vh",
-        minWidth: "100vw",
+        width: "100%",
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -48,41 +47,43 @@ function App() {
         elevation={8}
         sx={{
           bgcolor: "primary.light",
-          minHeight: { xs: "50vh", sm: "55vh", md: "60vh", lg: "65vh" },
-          width: { xs: "90vw", sm: "80vw", md: "65vw", lg: "55vw" },
+          minHeight: isMobile ? "65vh" : { xs: "66vh", sm: "75vh", md: "75vh"},
+          width: { xs: "90vw", sm: "80vw", md: "75vw", lg: "60vw" },
           height: "auto",
-          mt: activeStep !== -1 ? "2%" : "-1.7%",
+          mt: isMobile ? (activeStep === -1 ? "-55px" : "0px") : activeStep !== -1 ? "40px" : "-15px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Stack>
+        <Stack sx={{justifyContent: 'center'}}>
           {activeStep === -1 ? (
             <img
               src={marca}
               alt="Logo de HOLMES"
               height={
                 isMobile
-                  ? "50px"
+                  ? "80px"
                   : isSmall
-                  ? "70px"
+                  ? "80px"
                   : isMedium
                   ? "100px"
                   : "120px"
               }
-              style={{ marginTop: "10%" }}
+              style={{ marginTop: "1%" }}
             />
           ) : (
-            <StepperComponent activeStep={activeStep} />
+            <StepperComponent activeStep={activeStep} handleChangeStep={handleChangeStep} />
           )}
         </Stack>
 
         <Stack
           sx={{
-            width: activeStep !== -1 && activeStep !== 1 ? "100%" : "auto",
+            width: activeStep===2 || activeStep===3 || activeStep===4 ? '100%': "auto",
+            maxWidth: "100%",
             flexGrow: 1,
             justifyContent: "center",
+            alignItems:"center",
           }}
         >
           <RenderStepContent
@@ -96,9 +97,6 @@ function App() {
             handleChangeStep4={handleChangeStep4}
             handleChangeStep5={handleChangeStep5}
             handleSubmit={handleSubmit}
-            activeOption={activeOption}
-            chooseOption={chooseOption}
-            goBack={goBack}
           />
         </Stack>
       </Paper>
@@ -106,8 +104,7 @@ function App() {
       <Stack
         direction="row"
         sx={{
-          minWidth: { xs: "90vw", sm: "80vw", md: "65vw", lg: "55vw" },
-          maxWidth: "100%",
+          minWidth: { xs: "90vw", sm: "80vw", md: "75vw", lg: "60vw" },
           margin: "2% 0%",
           alignItems: "center",
           justifyContent: "flex-start",

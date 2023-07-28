@@ -1,8 +1,13 @@
 import { Customer, Reservation, Service } from "./types";
 
-export async function fetchAllServices(): Promise<Service[]> {
+export interface OfflineDay{
+  id: string;
+  date: Date;
+}
+
+export async function fetchDaysOffline(): Promise<OfflineDay[]> {
   try {
-    const response = await fetch(`https://holmesbooking.com/all-active-services`);
+    const response = await fetch(`https://holmesbooking.com/days-offline`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -11,9 +16,9 @@ export async function fetchAllServices(): Promise<Service[]> {
   }
 }
 
-export async function fetchServices(date: string): Promise<Service[]> {
+export async function fetchActiveServices(): Promise<Service[]> {
   try {
-    const response = await fetch(`https://holmesbooking.com/available-services/${encodeURIComponent(date)}`);
+    const response = await fetch(`https://holmesbooking.com/all-active-services`);
     const data = await response.json();
     return data;
   } catch (error) {

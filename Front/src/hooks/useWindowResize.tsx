@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useWindowRezise() {
+export function useWindowResize() {
   const [isMedium, setIsMedium] = useState<boolean>(false);
   const [isSmall, setIsSmall] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);

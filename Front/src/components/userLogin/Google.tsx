@@ -1,18 +1,24 @@
-import { Button } from "@mui/material";
 import { useEffect } from "react";
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
+import {
+  GoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from "react-google-login";
+import GoogleIcon from "@mui/icons-material/Google";
 import { gapi } from "gapi-script";
 import { Customer } from "../../types";
 import { googleLoginCustomer } from "../../api";
+import { Button } from "@mui/material";
 
 interface GoogleProps {
   customer: Customer;
-  onNext: () => void,
+  onNext: () => void;
   onChange: (customer: Customer) => void;
 }
 
-const Google: React.FC<GoogleProps> = ({customer, onNext, onChange}) => {
-  const clientID = "700718116668-2u91tg44c6eru6l81qov06odhfsv07ch.apps.googleusercontent.com";
+const Google: React.FC<GoogleProps> = ({ customer, onNext, onChange }) => {
+  const clientID =
+    "700718116668-2u91tg44c6eru6l81qov06odhfsv07ch.apps.googleusercontent.com";
 
   useEffect(() => {
     const start = () => {
@@ -36,7 +42,7 @@ const Google: React.FC<GoogleProps> = ({customer, onNext, onChange}) => {
 
   const onSuccess = (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     console.log(res);
-    if ('profileObj' in res) {
+    if ("profileObj" in res) {
       // res is of type GoogleLoginResponse
       const profileObj = (res as GoogleLoginResponse).profileObj;
       customer.email = profileObj.email;
@@ -57,6 +63,17 @@ const Google: React.FC<GoogleProps> = ({customer, onNext, onChange}) => {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}
+        render={(renderProps) => (
+          <Button
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+            variant="contained"
+            startIcon={<GoogleIcon />}
+            sx={{ minWidth: "50%", textTransform: "none" }}
+          >
+            Iniciar sesión con Google
+          </Button>
+        )}
       />
     </>
   );

@@ -7,7 +7,8 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
-import { fetchAllServices } from "../api";
+import { fetchActiveServices, fetchDaysOffline } from "../api";
+import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {
   activeStep: number;
@@ -15,15 +16,11 @@ interface RenderStepContentProps {
   handleNext: () => void;
   handlePrev: () => void;
   handleChangeStep1: (numberDiners: number) => void;
-  handleChangeStep2: (date: string) => void;
+  handleChangeStep2: (date: Dayjs) => void;
   handleChangeStep3: (service: Service) => void;
   handleChangeStep4: (scheduleTime: string) => void;
   handleChangeStep5: (customer: Customer) => void;
   handleSubmit: () => void;
-
-  activeOption: number;
-  chooseOption: (n: number) => void;
-  goBack: () => void;
 }
 
 export const RenderStepContent: React.FC<RenderStepContentProps> = ({
@@ -37,30 +34,58 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   handleChangeStep4,
   handleChangeStep5,
   handleSubmit,
-  activeOption,
-  chooseOption,
-  goBack,
 }) => {
-  const [allServices, setAllServices] = useState<Service[]>([]);
+  const [activeServices, setActiveServices] = useState<Service[]>([]);
+  const [offlineDays, setOfflineDays] = useState<Date[]>([]);
+
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
-        const services = await fetchAllServices();
-        setAllServices(services);
+        const services = await fetchActiveServices();
+        services.forEach((service) => {
+          const [sYear, sMonth, sDay] = service.startDate.toString().split("-");
+          const startDate = new Date(
+            Number(sYear),
+            Number(sMonth) - 1,
+            Number(sDay.slice(0, 2))
+          );
+          const [eYear, eMonth, eDay] = service.endDate.toString().split("-");
+          const endDate = new Date(
+            Number(eYear),
+            Number(eMonth) - 1,
+            Number(eDay.slice(0, 2))
+          );
+          service.startDate = startDate;
+          service.endDate = endDate;
+        });
+        setActiveServices(services);
       } catch (error) {}
     };
     fetchServicesData();
   }, []);
 
-  const getDisabledDays = () => {
-    console.log(allServices);
-    const disabledDays = [0, 1, 2, 3, 4, 5, 6];
-    const servicesKeys = allServices.flatMap((service) =>
-      Object.keys(service.schedule)
-    );
-    const servicesDays = servicesKeys.map((key) => parseInt(key));
+  useEffect(() => {
+    const fetchServicesData = async () => {
+      try {
+        const offlineDays = await fetchDaysOffline();
+        offlineDays.forEach((offlineDay) => {
+          const [year, month, day] = offlineDay.date.toString().split("-");
+          const date = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day.slice(0, 2))
+          );
+          offlineDay.date = date;
+        });
+        setOfflineDays(offlineDays.map((offlineDay) => offlineDay.date));
+        console.log();
+      } catch (error) {}
+    };
+    fetchServicesData();
+  }, []);
 
-    return disabledDays.filter((day) => !servicesDays.includes(day));
+  const filteredServicesByDate = (date: Date): Service[] => {
+    return activeServices.filter((service) => Object.keys(service.schedule).includes(date.getDay().toString()));
   };
 
   switch (activeStep) {
@@ -77,16 +102,19 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
     case 1:
       return (
         <Step2
-          date={reservation.time.toISOString().split("T")[0]}
+          reservation={reservation}
           onNext={handleNext}
           onChange={handleChangeStep2}
-          disabledDays={getDisabledDays()}
+          services={activeServices}
+          offlineDays={offlineDays}
         />
       );
     case 2:
+      console.log("Hora de la reserva en step 3:" + reservation.time);
       return (
         <Step3
           reservation={reservation}
+          services={filteredServicesByDate(reservation.time)}
           onNext={handleNext}
           onChange={handleChangeStep3}
         />
@@ -106,20 +134,11 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
           reservation={reservation}
           onPrev={handlePrev}
           onNext={handleNext}
-          activeOption={activeOption}
-          chooseOption={chooseOption}
-          goBack={goBack}
           onChange={handleChangeStep5}
         />
       );
     case 5:
-      return (
-        <Step6
-          reservation={reservation}
-          onPrev={handlePrev}
-          onSubmit={handleSubmit}
-        />
-      );
+      return <Step6 reservation={reservation} onSubmit={handleSubmit} />;
     default:
       return null;
   }

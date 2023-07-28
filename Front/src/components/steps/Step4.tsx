@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Divider, Stack, Typography } from "@mui/material";
 import { Reservation } from "../../types";
-import { theme } from "../../styles/themeProvider";
-
 import "../../styles/Step4.css";
 import { HourButton } from "../Buttons";
-import { useWindowRezise } from "../../hooks/useWindowRezise";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 interface Step4Props {
   reservation: Reservation;
@@ -14,12 +12,15 @@ interface Step4Props {
 }
 
 const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
+  
   const scheduleTimes =
     reservation.service?.schedule[reservation.time.getDay()];
-  const [selectedTime, setSelectedTime] = useState<string>("");
-  console.log(reservation.time.getTime().toString());
-  console.log(
-    reservation.time.getHours() + ":" + reservation.time.getMinutes()
+
+  const [selectedTime, setSelectedTime] = useState<string>(
+    `${reservation.time.getHours()}:${reservation.time
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`
   );
 
   const handleButtonClick = (time: string) => {
@@ -28,7 +29,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
     onNext();
   };
 
-  const { isMobile } = useWindowRezise();
+  const { isMobile } = useWindowResize();
 
   return (
     <>
@@ -36,18 +37,14 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: "140%",
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Elija un horario
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'90%', mt: "2%" }} />
 
       <Stack sx={{ width: "100%", mt: "8%" }}>
         <div
@@ -59,6 +56,7 @@ const Step4: React.FC<Step4Props> = ({ reservation, onNext, onChange }) => {
           {scheduleTimes &&
             scheduleTimes.map((timeString, index) => (
               <HourButton
+                key={index}
                 value={timeString.slice(0, 5)}
                 selectedValue={selectedTime}
                 handleButtonClick={handleButtonClick}

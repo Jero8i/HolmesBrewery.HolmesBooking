@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useWindowRezise } from "../../hooks/useWindowRezise";
+import { useWindowResize } from "../../hooks/useWindowResize";
 import { theme } from "../../styles/themeProvider";
 import { NumberButton } from "../Buttons";
 
@@ -30,7 +30,7 @@ export const Step1: React.FC<Step1Props> = ({
   const [showTextField, setShowTextField] = useState<boolean>(false);
   const [isNegative, setIsNegative] = useState<boolean>(false);
 
-  const { isSmall, isMobile } = useWindowRezise();
+  const { isSmall, isMobile } = useWindowResize();
 
   const handleButtonClick = (value: number | string) => {
     setSelectedValue(value);
@@ -47,6 +47,7 @@ export const Step1: React.FC<Step1Props> = ({
     if (number <= 0) {
       setIsNegative(true);
     } else {
+      setShowTextField(true);
       setIsNegative(false);
       setSelectedValue(number);
     }
@@ -61,27 +62,23 @@ export const Step1: React.FC<Step1Props> = ({
 
   return (
     <>
-      <Stack sx={{ mt: "-8%", alignItems: "center" }}>
+      <Stack sx={{ mt: "-10%", alignItems: "center" }}>
         <Typography
           variant="h5"
           sx={{
-            justifyContent: "center",
-            color: theme.palette.info.main,
-            fontFamily: "Roboto Slab, serif",
-            fontWeight: "bold",
-            fontSize: { xs: "120%", sm: "130%", md: "140%" },
+            fontSize: {xs: '1.1em', sm: "1.4em", md: "1.5em"}
           }}
         >
           Elija una cantidad de personas
         </Typography>
       </Stack>
 
-      <Divider sx={{ mt: "2%" }} />
+      <Divider sx={{width:'80%', mt: "2%" }} />
 
       <Stack
         direction="row"
         spacing={{ xs: "5px", sm: "5px", md: "10px", lg: "15px" }}
-        sx={{ margin: "5% 2% 0% 2%", justifyContent: "center" }}
+        sx={{ margin: isMobile ? "8% 2% 0% 2%" : "5% 2% 0% 2%", justifyContent: "center" }}
       >
         <NumberButton
           value="1"
@@ -117,11 +114,12 @@ export const Step1: React.FC<Step1Props> = ({
         />
       </Stack>
 
-      {showTextField || isNegative ? (
+      {showTextField || isNegative || (isMobile ? (isMobile && +selectedValue>4) : +selectedValue>5) ? (
         <Stack
           direction="row"
           spacing={2}
           sx={{
+            width: '90%',
             mt: isMobile
               ? "10%"
               : isSmall
@@ -129,12 +127,14 @@ export const Step1: React.FC<Step1Props> = ({
               : { sm: "7%", md: "8%", lg: "9%" },
             pr: "5%",
             pl: "5%",
+            alignItems:"center",
           }}
         >
           <TextField
             fullWidth
             type="number"
             error={isNegative ? true : false}
+            size= {isSmall ? "small" : "medium"}
             helperText={
               isNegative ? "El número no puede ser negativo ni cero." : ""
             }
@@ -143,11 +143,12 @@ export const Step1: React.FC<Step1Props> = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonAddIcon />
+                  <PersonAddIcon color='info'/>
                 </InputAdornment>
               ),
             }}
             onChange={handleInputChange}
+            defaultValue={selectedValue}
           />
 
           <Button
@@ -155,8 +156,8 @@ export const Step1: React.FC<Step1Props> = ({
             onClick={handleNext}
             sx={{
               fontSize: "80%",
-              height: "55px",
-              p: "0% 5%",
+              height: isSmall ? "40px" : "55px",
+              p: "0% 8%",
               color: "#FFFFFF",
               bgcolor: theme.palette.primary.main,
               "&:hover": {
@@ -164,7 +165,7 @@ export const Step1: React.FC<Step1Props> = ({
               },
             }}
           >
-            {isMobile ? <ArrowRightAltIcon fontSize="large" /> : "Continuar"}
+            {isMobile ? <ArrowRightAltIcon fontSize="medium"/> : "Continuar"}
           </Button>
         </Stack>
       ) : null}

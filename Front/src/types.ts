@@ -56,6 +56,8 @@ export interface Service {
   maxPeople: number;
   schedule: Schedule;
   description: string;
+  shortDescription: string;
+  imageUrl: string;
 }
 
 export interface Schedule {
@@ -68,5 +70,14 @@ export const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  flexGrow: 1,
+}));
+
+export const SummaryItem = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: "info",
   flexGrow: 1,
 }));
