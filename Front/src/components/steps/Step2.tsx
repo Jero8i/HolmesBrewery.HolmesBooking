@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Divider, Stack, Typography } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es"; // Importa el idioma español de dayjs
@@ -11,6 +14,12 @@ import { theme } from "../../styles/themeProvider";
 import { Reservation, Service } from "../../types";
 
 dayjs.locale("es"); // Establece el idioma español en dayjs
+dayjs.extend(localizedFormat);
+dayjs.extend(timezone);
+dayjs.extend(utc);
+
+// Configura la zona horaria a "ART" (Argentina Time)
+dayjs.tz.setDefault("America/Argentina/Buenos_Aires");
 
 interface Step2Props {
   reservation: Reservation;
@@ -19,6 +28,7 @@ interface Step2Props {
   services: Service[];
   offlineDays: Date[];
 }
+
 export const Step2: React.FC<Step2Props> = ({
   reservation,
   onNext,
@@ -26,23 +36,13 @@ export const Step2: React.FC<Step2Props> = ({
   services,
   offlineDays,
 }) => {
-  const date = reservation.time.toISOString().split("T")[0];
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs(date));
+
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs(reservation.time).tz("America/Argentina/Buenos_Aires"));
 
   const handleInputChange = (newValue: Dayjs | null) => {
     if (newValue != null) {
-      setSelectedDate(
-        newValue
-          .date(newValue.date())
-          .hour(reservation.time.getHours())
-          .minute(reservation.time.getMinutes())
-      );
-      onChange(
-        newValue
-          .date(newValue.date())
-          .hour(reservation.time.getHours())
-          .minute(reservation.time.getMinutes())
-      );
+      setSelectedDate(newValue.tz("America/Argentina/Buenos_Aires"));
+      onChange(newValue.tz("America/Argentina/Buenos_Aires"));
       onNext();
     }
   };

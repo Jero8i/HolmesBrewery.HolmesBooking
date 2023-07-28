@@ -90,7 +90,7 @@ export const StepperButton: React.FC<{
           "&:hover":
             value < activeStep
               ? {
-                  backgroundColor: '#ffffff',
+                  backgroundColor: theme.palette.primary.light,
                   border: "solid 2px",
                   "& svg": {},
                 }

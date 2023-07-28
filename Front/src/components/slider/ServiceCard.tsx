@@ -42,8 +42,7 @@ export const ServiceCard: React.FC<{
     <Card
       sx={{
         width: expanded ? {xs:"85%", md: "85%", lg:"80%"} : {xs:"85%", md:"75%", lg:"65%"},
-        mb: "10%",
-        boxShadow: selectedService.name === service.name ? "0px 0px 10px 4px #432818" : "",
+        border: selectedService.name === service.name ? "solid 4px #432818" : "",
       }}
       className="card"
     >

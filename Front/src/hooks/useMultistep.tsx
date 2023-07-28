@@ -52,7 +52,6 @@ export function useMultistep() {
   const handleChangeStep2 = (date: Dayjs) => {
     const [day, month, year] = date.format("DD-MM-YYYY").split("-");
     const time = new Date(Number(year), Number(month) - 1, Number(day));
-    console.log(date.hour())
     time.setHours(date.hour());
     time.setMinutes(date.minute());
     setReservation({ ...reservation, time });

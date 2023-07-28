@@ -3,6 +3,7 @@ import { Button, MobileStepper, Stack } from "@mui/material";
 import { Reservation, Service } from "../../types";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { ServiceCard } from "./ServiceCard";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 interface CardSliderProps {
   services: Service[];
@@ -49,9 +50,11 @@ const CardSlider: React.FC<CardSliderProps> = ({
     }
   };
 
+  const { isMobile } = useWindowResize();
+
   return (
     <>
-      <Stack sx={{ alignItems:"center" }}>
+      <Stack sx={{ alignItems:"center", margin: isMobile ? "3% 0%" : "0%" }}>
         <ServiceCard
           selectedService={selectedService}
           service={services[activeIndex]}
@@ -89,7 +92,7 @@ const CardSlider: React.FC<CardSliderProps> = ({
           alignItems: "center",
           justifyContent:"space-between",
           height: 30,
-          mt: "-8%",
+          margin: "2% 0%",
           borderRadius: "5px",
         }}
       />
