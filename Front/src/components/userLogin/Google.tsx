@@ -5,12 +5,10 @@ import {
   GoogleLoginResponseOffline,
 } from "react-google-login";
 import GoogleIcon from "@mui/icons-material/Google";
-import GoogleLogo from "../../images/googleLogo.png";
 import { gapi } from "gapi-script";
 import { Customer } from "../../types";
 import { googleLoginCustomer } from "../../api";
-import { Button, Typography } from "@mui/material";
-import { theme } from "../../styles/themeProvider";
+import { Button } from "@mui/material";
 
 interface GoogleProps {
   customer: Customer;
@@ -71,10 +69,9 @@ const Google: React.FC<GoogleProps> = ({ customer, onNext, onChange }) => {
             disabled={renderProps.disabled}
             variant="contained"
             startIcon={<GoogleIcon />}
-            sx={{minWidth:"50%", textTransform:"none"}}
+            sx={{ minWidth: "50%", textTransform: "none" }}
           >
             Iniciar sesión con Google
-            {/*<img src={GoogleLogo} alt="Google Logo" style={{ width: "32px", height: "32px" }}/>*/}
           </Button>
         )}
       />

@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import { useWindowResize } from "../hooks/useWindowResize";
 
 export const theme = createTheme(
   { 

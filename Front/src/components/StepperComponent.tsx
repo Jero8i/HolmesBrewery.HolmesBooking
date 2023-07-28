@@ -1,4 +1,4 @@
-import { Stepper, Step, StepLabel, Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import SportsBarIcon from "@mui/icons-material/SportsBar";
