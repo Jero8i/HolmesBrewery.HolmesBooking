@@ -24,7 +24,7 @@ jobs:
       - name: Build the app
         run: npm run build
 
-      - name: Deploy to hosting service
+      - name: Deploy to hosting service by ftp
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: win5219.site4now.net
