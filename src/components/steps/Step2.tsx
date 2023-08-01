@@ -10,7 +10,6 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es"; // Importa el idioma español de dayjs
 
 import "../../styles/Step2.css";
-import { theme } from "../../styles/themeProvider";
 import { Reservation, Service } from "../../types";
 
 dayjs.locale("es"); // Establece el idioma español en dayjs
