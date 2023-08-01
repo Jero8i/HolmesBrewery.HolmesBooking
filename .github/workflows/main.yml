@@ -29,6 +29,6 @@ jobs:
         with:
           server: win5219.site4now.net
           username: front
-          password: Jonas1907
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./build
 
