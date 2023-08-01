@@ -28,7 +28,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: win5219.site4now.net
-          username: front
+          username: development
           password: ${{ secrets.ftp_password }}
           local-dir: ./build/
 
