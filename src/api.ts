@@ -5,6 +5,8 @@ export interface OfflineDay{
   date: Date;
 }
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export async function fetchDaysOffline(): Promise<OfflineDay[]> {
   try {
     const token = localStorage.getItem('token');
@@ -17,7 +19,7 @@ export async function fetchDaysOffline(): Promise<OfflineDay[]> {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await fetch(`https://holmesbooking.com/days-offline`, requestOptions);
+    const response = await fetch(`${apiUrl}/days-offline`, requestOptions);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -38,7 +40,7 @@ export async function fetchActiveServices(): Promise<Service[]> {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await fetch(`https://localhost:7257/all-active-services`, requestOptions);
+    const response = await fetch(`${apiUrl}/all-active-services`, requestOptions);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -63,7 +65,7 @@ export async function createReservation(reservation: Reservation): Promise<void>
     formData.append("Reservation.TimeSelected", reservation.time.toLocaleTimeString());
     formData.append("Reservation.State", reservation.state.toString());
     formData.append("Reservation.Note", reservation.note!);
-    const response = await fetch('https://holmesbooking.com/save-reservation', {
+    const response = await fetch('${apiUrl}/save-reservation', {
       method: 'POST',
       body: formData,
       headers: {
@@ -96,7 +98,7 @@ export async function registerCustomer(customer: Customer): Promise<Customer> {
     formData.append("Customer.PhoneNumber", customer.phonenumber);
     formData.append("Customer.Password", customer.password);
     formData.append("Customer.Classification", customer.classification.toString());
-    const response = await fetch('https://holmesbooking.com/save-customer', {
+    const response = await fetch(`${apiUrl}/save-customer`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -130,7 +132,7 @@ export async function googleLoginCustomer(customer: Customer): Promise<Customer>
     formData.append("Customer.PhoneNumber", customer.phonenumber);
     formData.append("Customer.Password", customer.password);
     formData.append("Customer.Classification", customer.classification.toString());
-    const response = await fetch('https://holmesbooking.com/external-login', {
+    const response = await fetch(`${apiUrl}/external-login`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -161,7 +163,7 @@ export async function customerLogin(email: string, password: string): Promise<Cu
     formData.append("Username", email);
     formData.append("Password", password);
     formData.append("CalledFromAdmin", "false");
-    const response = await fetch('https://holmesbooking.com/users/login', {
+    const response = await fetch(`${apiUrl}/users/login`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -186,7 +188,7 @@ export async function fetchAndStoreToken() {
   try {
     const formData = new FormData();
     formData.append("ApiKey", apiKey);
-    const response = await fetch('https://localhost:7257/users/getToken', {
+    const response = await fetch(`${apiUrl}/users/getToken`, {
       method: 'POST',
       body: formData,
     })
