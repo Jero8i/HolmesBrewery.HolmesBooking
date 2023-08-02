@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - Develop
+      - develop
 
 jobs:
   build-and-deploy-production:
@@ -39,7 +39,7 @@ jobs:
 
   build-and-deploy-development:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/Develop'
+    if: github.ref == 'refs/heads/develop'
 
     env:
       REACT_APP_API_URL: http://holmessoftware-001-site2.atempurl.com
