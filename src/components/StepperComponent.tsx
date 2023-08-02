@@ -16,7 +16,7 @@ interface StepperComponentProps {
 }
 
 export const StepperComponent: React.FC<StepperComponentProps> = ({activeStep, handleChangeStep}) => {
-  const { isMedium, isMobile } = useWindowResize();
+  useWindowResize();
 
   return (
     <Stack direction="row" spacing={1} sx={{mt:'5%'}}>

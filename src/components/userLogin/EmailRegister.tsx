@@ -51,7 +51,7 @@ const EmailRegister: React.FC<EmailRegisterProps> = ({
     if (validateData()) {
       try {
         const customerId = (await registerCustomer(customer)).id;
-        onChange({ ...customer, ["id"]: customerId });
+        onChange({ ...customer, id: customerId });
         onNext();
       } catch (error) {
         setInvalidData(true);

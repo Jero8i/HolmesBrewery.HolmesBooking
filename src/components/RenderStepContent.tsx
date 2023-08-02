@@ -7,7 +7,7 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import { Customer, Reservation, Service } from "../types";
 import Step6 from "./steps/Step6";
-import { fetchActiveServices, fetchDaysOffline } from "../api";
+import { fetchActiveServices, fetchAndStoreToken, fetchDaysOffline } from "../api";
 import { Dayjs } from "dayjs";
 
 interface RenderStepContentProps {
@@ -41,6 +41,7 @@ export const RenderStepContent: React.FC<RenderStepContentProps> = ({
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
+        await fetchAndStoreToken();
         const services = await fetchActiveServices();
         services.forEach((service) => {
           const [sYear, sMonth, sDay] = service.startDate.toString().split("-");
