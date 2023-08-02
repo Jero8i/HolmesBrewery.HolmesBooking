@@ -35,7 +35,7 @@ jobs:
           server: win5219.site4now.net
           username: front
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./build
+          local-dir: ./build/
 
   build-and-deploy-development:
     runs-on: ubuntu-latest
@@ -65,4 +65,4 @@ jobs:
           server: win5219.site4now.net
           username: development
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./build
+          local-dir: ./build/
