@@ -65,7 +65,7 @@ export async function createReservation(reservation: Reservation): Promise<void>
     formData.append("Reservation.TimeSelected", reservation.time.toLocaleTimeString());
     formData.append("Reservation.State", reservation.state.toString());
     formData.append("Reservation.Note", reservation.note!);
-    const response = await fetch('${apiUrl}/save-reservation', {
+    const response = await fetch(`${apiUrl}/save-reservation`, {
       method: 'POST',
       body: formData,
       headers: {
