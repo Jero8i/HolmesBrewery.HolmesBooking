@@ -13,6 +13,7 @@ jobs:
 
     env:
       REACT_APP_API_URL: https://holmesbooking.com
+      REACT_APP_API_KEY: oqwV2k+Wi3LlmVluwlZupSBhNamuYFv2qrKYYQzAAsg1rFFiizttczKBwls7OROj
 
     steps:
       - name: Checkout the code
@@ -43,6 +44,7 @@ jobs:
 
     env:
       REACT_APP_API_URL: http://holmessoftware-001-site2.atempurl.com
+      REACT_APP_API_KEY: oqwV2k+Wi3LlmVluwlZupSBhNamuYFv2qrKYYQzAAsg1rFFiizttczKBwls7OROj
 
     steps:
       - name: Checkout the code
