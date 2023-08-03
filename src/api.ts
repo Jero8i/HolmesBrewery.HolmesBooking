@@ -51,6 +51,11 @@ export async function fetchActiveServices(): Promise<Service[]> {
 
 export async function createReservation(reservation: Reservation): Promise<void> {
   try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token no encontrado en el localStorage.');
+      throw new Error('Token no encontrado');
+    }
     const formData = new FormData();
     if (reservation.id != null) formData.append("Reservation.Id", reservation.id!);
     formData.append("Reservation.Service.Id", reservation.service.id!);
@@ -63,6 +68,9 @@ export async function createReservation(reservation: Reservation): Promise<void>
     const response = await fetch('https://holmesbooking.com/save-reservation', {
       method: 'POST',
       body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!response.ok) {
