@@ -57,17 +57,9 @@ export async function createReservation(reservation: Reservation): Promise<void>
       throw new Error('Token no encontrado');
     }
     const formData = new FormData();
-    if (reservation.id != null) formData.append("Reservation.Id", reservation.id!);
-    formData.append("Reservation.Service.Id", reservation.service.id!);
-    formData.append("Reservation.Customer.Id", reservation.customer.id!);
-    formData.append("Reservation.NumberDiners", reservation.numberDiners.toString());
-    formData.append("Reservation.Time", reservation.time.toISOString().split("T")[0]);
-    formData.append("Reservation.TimeSelected", reservation.time.toLocaleTimeString());
-    formData.append("Reservation.State", reservation.state.toString());
-    formData.append("Reservation.Note", reservation.note!);
     const response = await fetch(`${apiUrl}/save-reservation`, {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(reservation),
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -91,7 +83,7 @@ export async function registerCustomer(customer: Customer): Promise<Customer> {
       throw new Error('Token no encontrado');
     }
     const formData = new FormData();
-    formData.append("Customer.Id", customer.id); // Why does it work without Id? (In back "IsNewCustomer")
+    formData.append("Customer.Id", customer.id);
     formData.append("Customer.Name", customer.name);
     formData.append("Customer.LastName", customer.lastname);
     formData.append("Customer.Email", customer.email);
@@ -159,7 +151,7 @@ export async function customerLogin(email: string, password: string): Promise<Cu
       console.error('Token no encontrado en el localStorage.');
       throw new Error('Token no encontrado');
     }
-    const formData = new FormData(); // Why it is different compared to previous?
+    const formData = new FormData();
     formData.append("Username", email);
     formData.append("Password", password);
     formData.append("CalledFromAdmin", "false");
@@ -184,7 +176,7 @@ export async function customerLogin(email: string, password: string): Promise<Cu
 }
 
 export async function fetchAndStoreToken() {
-  const apiKey = 'oqwV2k+Wi3LlmVluwlZupSBhNamuYFv2qrKYYQzAAsg1rFFiizttczKBwls7OROj';
+  const apiKey = process.env.REACT_APP_API_KEY!;
   try {
     const formData = new FormData();
     formData.append("ApiKey", apiKey);
